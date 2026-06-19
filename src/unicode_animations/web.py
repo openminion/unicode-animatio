@@ -7,13 +7,18 @@ import json
 import webbrowser
 from collections.abc import Sequence
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
-from typing import Any
+from typing import TypedDict
 from urllib.parse import urlparse
 
 from .braille import BRAILLE_SPINNER_NAMES, spinners
 
 
-def build_spinner_payload() -> dict[str, dict[str, Any]]:
+class SpinnerPayload(TypedDict):
+    frames: list[str]
+    interval: int
+
+
+def build_spinner_payload() -> dict[str, SpinnerPayload]:
     """Return JSON-friendly spinner data for the web preview."""
     return {
         name: {
@@ -249,33 +254,47 @@ def create_demo_server(host: str = "127.0.0.1", port: int = 0) -> ThreadingHTTPS
     payload_json = json.dumps(payload, ensure_ascii=False).encode("utf-8")
     html = build_demo_html().encode("utf-8")
 
+    def _write_response(
+        handler: BaseHTTPRequestHandler,
+        *,
+        content_type: str,
+        body: bytes,
+        status: int = 200,
+        cache_control: str | None = None,
+    ) -> None:
+        handler.send_response(status)
+        handler.send_header("Content-Type", content_type)
+        if cache_control is not None:
+            handler.send_header("Cache-Control", cache_control)
+        handler.send_header("Content-Length", str(len(body)))
+        handler.end_headers()
+        handler.wfile.write(body)
+
     class DemoHandler(BaseHTTPRequestHandler):
         def do_GET(self) -> None:  # noqa: N802
             route = urlparse(self.path).path
 
             if route in ("/", "/index.html"):
-                self.send_response(200)
-                self.send_header("Content-Type", "text/html; charset=utf-8")
-                self.send_header("Content-Length", str(len(html)))
-                self.end_headers()
-                self.wfile.write(html)
+                _write_response(self, content_type="text/html; charset=utf-8", body=html)
                 return
 
             if route == "/spinners.json":
-                self.send_response(200)
-                self.send_header("Content-Type", "application/json; charset=utf-8")
-                self.send_header("Cache-Control", "no-store")
-                self.send_header("Content-Length", str(len(payload_json)))
-                self.end_headers()
-                self.wfile.write(payload_json)
+                _write_response(
+                    self,
+                    content_type="application/json; charset=utf-8",
+                    body=payload_json,
+                    cache_control="no-store",
+                )
                 return
 
-            self.send_response(404)
-            self.send_header("Content-Type", "text/plain; charset=utf-8")
-            self.end_headers()
-            self.wfile.write(b"Not Found")
+            _write_response(
+                self,
+                status=404,
+                content_type="text/plain; charset=utf-8",
+                body=b"Not Found",
+            )
 
-        def log_message(self, format: str, *args: Any) -> None:  # noqa: A003
+        def log_message(self, format: str, *args: object) -> None:  # noqa: A003
             # Keep CLI output clean for demo usage.
             return
 
