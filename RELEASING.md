@@ -1,0 +1,74 @@
+# Releasing `unicode-animations`
+
+Status: `beta`
+Scope: package-local release contract for the standalone
+`unicode-animations` distribution
+
+## Release contract
+
+A publishable release must satisfy all of the following:
+
+1. `pyproject.toml` and `src/unicode_animations/__init__.py` agree on the
+   version.
+2. `README.md` describes install, quickstart, CLI usage, and public package
+   boundaries for external consumers.
+3. `API_COMPATIBILITY.md` reflects the public import roots and compatibility
+   aliases.
+4. `docs/README.md` remains the package-local docs index.
+5. `docs/source-tree-owner-map.md` remains the package-local owner map.
+6. Package tests pass from the package root.
+7. Ruff passes from the package root.
+8. Both wheel and sdist build successfully.
+9. A fresh-wheel install smoke passes from a temporary virtualenv.
+
+## Version bump
+
+Update:
+
+- `pyproject.toml`
+- `src/unicode_animations/__init__.py`
+
+If the public contract changes, also update:
+
+- `README.md`
+- `API_COMPATIBILITY.md`
+- `docs/README.md`
+- `docs/source-tree-owner-map.md`
+
+## Build and validation
+
+Preferred deterministic release check:
+
+```bash
+python3 scripts/release_check.py
+```
+
+Manual equivalent:
+
+```bash
+python3 -m pytest -q
+python3 -m ruff check .
+python3 -m build
+```
+
+Fresh-install smoke:
+
+```bash
+TMP_VENV="$(mktemp -d)/unicode-animations-venv"
+python3 -m venv "$TMP_VENV"
+"$TMP_VENV/bin/pip" install dist/unicode_animations-*.whl
+"$TMP_VENV/bin/unicode-animations" --list
+```
+
+## Publish sequence
+
+1. Run `python3 scripts/release_check.py`
+2. Confirm the built wheel installs in a fresh virtualenv
+3. Publish the artifacts in `dist/` through the normal PyPI release path
+
+## Notes
+
+1. This package is intentionally standalone and should not depend on
+   OpenMinion runtime modules.
+2. Build outputs such as `build/`, `dist/`, and `*.egg-info` are release
+   artifacts, not source-of-truth package content.

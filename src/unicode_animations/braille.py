@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import math
-from collections.abc import Sequence
+from collections.abc import Iterable, Sequence
 from dataclasses import dataclass
 from typing import Literal
 
@@ -63,6 +63,8 @@ BRAILLE_DOT_MAP = (
     (0x40, 0x80),  # row 3
 )
 
+Point = tuple[int, int]
+
 
 def grid_to_braille(grid: Sequence[Sequence[bool]]) -> str:
     """Convert a 2D boolean grid into a braille string."""
@@ -89,6 +91,32 @@ def make_grid(rows: int, cols: int) -> list[list[bool]]:
     if rows <= 0 or cols <= 0:
         return []
     return [[False for _ in range(cols)] for _ in range(rows)]
+
+
+def _frame_from_points(rows: int, cols: int, points: Iterable[Point]) -> str:
+    """Render one braille frame from a set of active points."""
+    grid = make_grid(rows, cols)
+    for row, col in points:
+        grid[row][col] = True
+    return grid_to_braille(grid)
+
+
+def _frame_from_flat_pattern(rows: int, cols: int, pattern: Sequence[int]) -> str:
+    """Render one braille frame from a row-major 0/1 pattern."""
+    return _frame_from_points(
+        rows,
+        cols,
+        ((index // cols, index % cols) for index, value in enumerate(pattern) if value),
+    )
+
+
+def _filled_frame(rows: int, cols: int) -> str:
+    """Render one braille frame with every cell enabled."""
+    return _frame_from_points(
+        rows,
+        cols,
+        ((row, col) for row in range(rows) for col in range(cols)),
+    )
 
 
 def _js_round(value: float) -> int:
@@ -215,16 +243,7 @@ def _gen_sparkle() -> list[str]:
     ]
 
     width, height = 8, 4
-    frames: list[str] = []
-
-    for pattern in patterns:
-        grid = make_grid(height, width)
-        for row in range(height):
-            for col in range(width):
-                grid[row][col] = bool(pattern[row * width + col])
-        frames.append(grid_to_braille(grid))
-
-    return frames
+    return [_frame_from_flat_pattern(height, width, pattern) for pattern in patterns]
 
 
 def _gen_cascade() -> list[str]:
@@ -257,11 +276,7 @@ def _gen_columns() -> list[str]:
                 grid[row][col] = True
             frames.append(grid_to_braille(grid))
 
-    full = make_grid(height, width)
-    for row in range(height):
-        for col in range(width):
-            full[row][col] = True
-    frames.append(grid_to_braille(full))
+    frames.append(_filled_frame(height, width))
     frames.append(grid_to_braille(make_grid(height, width)))
 
     return frames
@@ -282,15 +297,8 @@ def _gen_orbit() -> list[str]:
 
     frames: list[str] = []
     for idx in range(len(path)):
-        grid = make_grid(height, width)
-        row, col = path[idx]
-        grid[row][col] = True
-
         trail_idx = (idx - 1 + len(path)) % len(path)
-        trail_row, trail_col = path[trail_idx]
-        grid[trail_row][trail_col] = True
-
-        frames.append(grid_to_braille(grid))
+        frames.append(_frame_from_points(height, width, (path[idx], path[trail_idx])))
 
     return frames
 
@@ -312,10 +320,7 @@ def _gen_breathe() -> list[str]:
     sequence = stages + list(reversed(stages))[1:]
 
     for dots in sequence:
-        grid = make_grid(4, 2)
-        for row, col in dots:
-            grid[row][col] = True
-        frames.append(grid_to_braille(grid))
+        frames.append(_frame_from_points(4, 2, dots))
 
     return frames
 
@@ -382,13 +387,9 @@ def _gen_fillsweep() -> list[str]:
                 grid[inner_row][col] = True
         frames.append(grid_to_braille(grid))
 
-    full = make_grid(height, width)
-    for row in range(height):
-        for col in range(width):
-            full[row][col] = True
-
-    frames.append(grid_to_braille(full))
-    frames.append(grid_to_braille(full))
+    full_frame = _filled_frame(height, width)
+    frames.append(full_frame)
+    frames.append(full_frame)
 
     for row in range(height):
         grid = make_grid(height, width)
@@ -415,11 +416,7 @@ def _gen_diagonal_swipe() -> list[str]:
                     grid[row][col] = True
         frames.append(grid_to_braille(grid))
 
-    full = make_grid(height, width)
-    for row in range(height):
-        for col in range(width):
-            full[row][col] = True
-    frames.append(grid_to_braille(full))
+    frames.append(_filled_frame(height, width))
 
     for diag in range(max_diag + 1):
         grid = make_grid(height, width)
