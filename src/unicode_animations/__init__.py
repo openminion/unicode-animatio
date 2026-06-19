@@ -1,5 +1,7 @@
 """Unicode braille spinner animations for Python."""
 
+__version__ = "0.1.0"
+
 from .braille import (
     BRAILLE_SPINNER_NAMES,
     BrailleSpinnerName,
@@ -14,6 +16,7 @@ gridToBraille = grid_to_braille
 makeGrid = make_grid
 
 __all__ = [
+    "__version__",
     "Spinner",
     "BrailleSpinnerName",
     "BRAILLE_SPINNER_NAMES",

@@ -1,15 +1,48 @@
 # unicode-animations
 
-Python port of `unicode-animations` with 18 braille spinner animations as raw frame data.
+Lightweight Unicode braille spinner animations for Python.
 
-- Raw spinner frame data for terminal and web previews
-- Typed Python API with compatibility aliases for the original JS-style helpers
-- Built-in CLI and browser demo for quick verification before shipping
+- 18 spinner families as raw frame data
+- typed Python API with JS-style compatibility aliases
+- built-in terminal preview CLI and local browser demo
+- no runtime dependencies
+
+## Official project links
+
+- GitHub: `https://github.com/openminion/unicode-animations`
+- Issues: `https://github.com/openminion/unicode-animations/issues`
+
+## What the package provides
+
+`unicode-animations` provides:
+
+- immutable spinner frame data via `unicode_animations.spinners`
+- braille-grid helpers: `make_grid` and `grid_to_braille`
+- compatibility aliases: `makeGrid` and `gridToBraille`
+- a terminal preview CLI: `unicode-animations`
+- a local web preview CLI: `unicode-animations-web`
+
+## What the package does not provide
+
+This package does not provide:
+
+- async terminal rendering frameworks
+- progress bars, task orchestration, or job-state tracking
+- hosted demo infrastructure or remote APIs
+- framework-specific adapters for Rich, Textual, or Typer
 
 ## Install
 
+From PyPI:
+
 ```bash
-pip install unicode-animations
+python3 -m pip install unicode-animations
+```
+
+Editable install during local development:
+
+```bash
+python3 -m pip install -e ".[dev]"
 ```
 
 ## Quick start
@@ -22,12 +55,10 @@ print(spinner.frames)
 print(spinner.interval)
 ```
 
-Each spinner is a `Spinner(frames: tuple[str, ...], interval: int)`.
-
-## Utilities
+Grid helpers:
 
 ```python
-from unicode_animations import make_grid, grid_to_braille
+from unicode_animations import grid_to_braille, make_grid
 
 grid = make_grid(4, 4)
 grid[0][0] = True
@@ -38,23 +69,25 @@ grid[3][3] = True
 print(grid_to_braille(grid))
 ```
 
-## CLI
+## CLI and demos
+
+Terminal preview:
 
 ```bash
 unicode-animations --list
 unicode-animations
 unicode-animations helix
+```
+
+Local browser demo:
+
+```bash
 unicode-animations --web
 unicode-animations-web --port 8765
 unicode-animations-web --host 0.0.0.0 --port 8765 --no-open
 ```
 
-`--web` launches a local browser preview that serves all spinner frames from the
-Python package itself.
-
-## Terminal Demo Script (Python API)
-
-From the project root:
+Python API terminal demo:
 
 ```bash
 python examples/terminal_demo.py
@@ -63,30 +96,29 @@ python examples/terminal_demo.py helix
 python examples/terminal_demo.py --list
 ```
 
-This demo is useful if you want to see how to animate spinners directly from
-Python code (without using the built-in CLI command).
-
 ## Development
 
 ```bash
-python -m venv .venv
+python3 -m venv .venv
 source .venv/bin/activate
-pip install -e ".[dev]"
-pytest
-ruff check .
-python -m build
+python3 -m pip install -e ".[dev]"
+python3 -m pytest -q
+python3 -m ruff check .
+python3 -m build
 ```
 
-The test suite is configured for the `src/` layout, so `pytest` works from a
-fresh checkout after installing the dev dependencies.
+## Package docs
 
-## Release checklist
+- [Package docs index](docs/README.md)
+- [API compatibility](API_COMPATIBILITY.md)
+- [Release guide](RELEASING.md)
+- [Source tree owner map](docs/source-tree-owner-map.md)
 
-```bash
-pytest
-ruff check .
-python -m build
-```
+## Trust and brand safety
+
+- Official GitHub: `https://github.com/openminion/unicode-animations`
+- No token, NFT, airdrop, staking product, or investment program is associated
+  with this package.
 
 ## Community
 

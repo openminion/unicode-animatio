@@ -28,3 +28,6 @@ htmlcov/
 .DS_Store
 .vscode/
 .idea/
+
+# Sweep and review artifacts
+workspace-tmp/
