@@ -14,15 +14,16 @@ Thanks for your interest in improving `unicode-animations`.
 From the project root:
 
 ```bash
-python -m venv .venv
+python3 -m venv .venv
 source .venv/bin/activate
-pip install -e ".[dev]"
+python3 -m pip install -e ".[dev]"
 ```
 
 ## Running Tests
 
 ```bash
-pytest
+python3 -m pytest -q
+python3 -m ruff check .
 ```
 
 ## Running the Demos
@@ -39,6 +40,12 @@ CLI demo:
 unicode-animations --list
 unicode-animations helix
 unicode-animations --web
+```
+
+## Release-shaped validation
+
+```bash
+python3 scripts/release_check.py
 ```
 
 ## Pull Request Checklist

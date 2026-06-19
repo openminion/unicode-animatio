@@ -29,9 +29,10 @@ classifiers = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/gunnargray-dev/unicode-animations"
-Repository = "https://github.com/gunnargray-dev/unicode-animations"
-Issues = "https://github.com/gunnargray-dev/unicode-animations/issues"
+Homepage = "https://github.com/openminion/unicode-animations"
+Repository = "https://github.com/openminion/unicode-animations"
+Documentation = "https://github.com/openminion/unicode-animations/tree/main/docs"
+Issues = "https://github.com/openminion/unicode-animations/issues"
 
 [project.scripts]
 unicode-animations = "unicode_animations.cli:main"
