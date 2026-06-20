@@ -5,6 +5,7 @@ This directory is the package-local documentation root for
 
 ## Package docs
 
+- [Getting started](getting-started.md)
 - [Source tree owner map](source-tree-owner-map.md)
 
 ## Root package docs
