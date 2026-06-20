@@ -109,6 +109,7 @@ python3 -m build
 
 ## Package docs
 
+- [Getting started](docs/getting-started.md)
 - [Package docs index](docs/README.md)
 - [API compatibility](API_COMPATIBILITY.md)
 - [Release guide](RELEASING.md)
