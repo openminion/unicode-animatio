@@ -9,6 +9,11 @@ Thanks for your interest in improving `unicode-animations`.
 - Keep pull requests focused and small when possible.
 - Include tests for behavior changes.
 
+## Read first
+
+1. [README.md](./README.md)
+2. [docs/getting-started.md](./docs/getting-started.md)
+
 ## Development Setup
 
 From the project root:
