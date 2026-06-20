@@ -115,11 +115,28 @@ python3 -m build
 - [Release guide](RELEASING.md)
 - [Source tree owner map](docs/source-tree-owner-map.md)
 
-## Trust and brand safety
+## Trust and Brand Safety
 
 - Official GitHub: `https://github.com/openminion/unicode-animations`
-- No token, NFT, airdrop, staking product, or investment program is associated
-  with this package.
+- Official website: `https://www.openminion.com`
+- Official X account: `https://x.com/OpenMinion`
+
+`unicode-animations` has no official token, coin, NFT, airdrop, staking
+program, treasury product, or investment offering. Any claim otherwise is
+unauthorized and should be treated as a scam.
+
+## License and brand-use boundary
+
+- Source code license: `MIT`
+- Brand/trademark grant: `none`
+
+The software license grants rights to use, modify, and redistribute the code.
+It does **not** grant rights to use the unicode-animations or OpenMinion
+names, logos, branding, website identity, or social identity except for
+truthful attribution. Forks, clones, and derivative distributions must not
+present themselves as the official unicode-animations package or imply
+affiliation, endorsement, or maintenance by unicode-animations or OpenMinion
+contributors unless that is actually true.
 
 ## Community
 
