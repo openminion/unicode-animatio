@@ -10,13 +10,13 @@ from collections.abc import Sequence
 from .braille import BRAILLE_SPINNER_NAMES, spinners
 from .web import serve_demo
 
-HIDE_CURSOR = "\x1B[?25l"
-SHOW_CURSOR = "\x1B[?25h"
-BOLD = "\x1B[1m"
-DIM = "\x1B[2m"
-MAGENTA = "\x1B[35m"
-RESET = "\x1B[0m"
-CLEAR_LINE = "\r\x1B[2K"
+HIDE_CURSOR = "\x1b[?25l"
+SHOW_CURSOR = "\x1b[?25h"
+BOLD = "\x1b[1m"
+DIM = "\x1b[2m"
+MAGENTA = "\x1b[35m"
+RESET = "\x1b[0m"
+CLEAR_LINE = "\r\x1b[2K"
 
 
 def _build_parser() -> argparse.ArgumentParser:
