@@ -39,7 +39,7 @@ def test_grid_to_braille_all_true_is_full_braille() -> None:
     for row in range(4):
         for col in range(2):
             grid[row][col] = True
-    assert grid_to_braille(grid) == "\u28FF"
+    assert grid_to_braille(grid) == "\u28ff"
 
 
 @pytest.mark.parametrize(

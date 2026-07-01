@@ -9,9 +9,9 @@ import time
 
 from unicode_animations import BRAILLE_SPINNER_NAMES, spinners
 
-HIDE_CURSOR = "\x1B[?25l"
-SHOW_CURSOR = "\x1B[?25h"
-CLEAR_LINE = "\r\x1B[2K"
+HIDE_CURSOR = "\x1b[?25l"
+SHOW_CURSOR = "\x1b[?25h"
+CLEAR_LINE = "\r\x1b[2K"
 
 
 def _build_parser() -> argparse.ArgumentParser:
