@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Run package-local release validation for unicode-animations."""
+"""Run package-local release validation for unicode-animatio."""
 
 from __future__ import annotations
 
@@ -21,19 +21,19 @@ def _run(*args: str) -> None:
 
 
 def _dist_wheel() -> Path:
-    wheels = sorted(DIST_DIR.glob("unicode_animations-*.whl"))
+    wheels = sorted(DIST_DIR.glob("unicode_animatio-*.whl"))
     if not wheels:
         raise SystemExit("release_check: expected a built wheel under dist/")
     return wheels[-1]
 
 
 def _fresh_install_smoke() -> None:
-    with tempfile.TemporaryDirectory(prefix="unicode-animations-release-") as tmpdir:
+    with tempfile.TemporaryDirectory(prefix="unicode-animatio-release-") as tmpdir:
         venv_dir = Path(tmpdir) / "venv"
         _run(sys.executable, "-m", "venv", str(venv_dir))
         pip = venv_dir / "bin" / "pip"
         python = venv_dir / "bin" / "python"
-        cli = venv_dir / "bin" / "unicode-animations"
+        cli = venv_dir / "bin" / "unicode-animatio"
         _run(str(pip), "install", str(_dist_wheel()))
         _run(
             str(python),
@@ -50,7 +50,7 @@ def _fresh_install_smoke() -> None:
 
 
 def main(argv: list[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(description="Run unicode-animations release checks.")
+    parser = argparse.ArgumentParser(description="Run unicode-animatio release checks.")
     parser.add_argument(
         "--skip-build-clean",
         action="store_true",

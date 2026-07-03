@@ -1,8 +1,11 @@
-# API Compatibility
+# unicode-animatio API Compatibility
 
 Status: `beta`
 Scope: public import roots and compatibility expectations for
-`unicode-animations`
+`unicode-animatio`
+
+Public naming note: the public distribution and CLI names use
+`unicode-animatio`, while the Python import roots remain `unicode_animations`.
 
 ## Stable import roots
 
@@ -29,8 +32,8 @@ The package currently treats these names as public:
 
 The package currently treats these console scripts as public:
 
-- `unicode-animations`
-- `unicode-animations-web`
+- `unicode-animatio`
+- `unicode-animatio-web`
 
 ## Compatibility policy
 

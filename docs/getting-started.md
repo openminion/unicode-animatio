@@ -1,14 +1,14 @@
-# unicode-animations Getting Started
+# unicode-animatio Getting Started
 
 Status: active
 
 Purpose: give contributors and automation authors a package-local bootstrap
-and execution summary for work inside the `unicode-animations` repo.
+and execution summary for work inside the `unicode-animatio` repo.
 
 ## Fast bootstrap
 
 ```bash
-cd unicode-animations
+cd unicode-animatio
 python3.11 -m venv .venv
 source .venv/bin/activate
 python3.11 -m pip install -e ".[dev]"

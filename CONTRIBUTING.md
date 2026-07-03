@@ -1,6 +1,6 @@
-# Contributing to unicode-animations
+# Contributing to unicode-animatio
 
-Thanks for your interest in improving `unicode-animations`.
+Thanks for your interest in improving `unicode-animatio`.
 
 ## Read first
 
@@ -13,7 +13,7 @@ Thanks for your interest in improving `unicode-animations`.
    behavior
 
 Treat the package README and API compatibility policy as the stable public
-contract. `unicode-animations` ships deterministic frame data, CLI helpers, and
+contract. `unicode-animatio` ships deterministic frame data, CLI helpers, and
 simple browser preview support. It should stay lightweight and dependency-aware.
 
 ## Development setup
@@ -22,8 +22,8 @@ Requires Python 3.11+ for the shared local quality loop.
 
 ```bash
 # 1. Clone and enter the repo
-git clone https://github.com/openminion/unicode-animations.git unicode-animations
-cd unicode-animations
+git clone https://github.com/openminion/unicode-animatio.git unicode-animatio
+cd unicode-animatio
 
 # 2. Create and activate a virtualenv
 python3.11 -m venv .venv
@@ -80,9 +80,9 @@ python examples/terminal_demo.py
 CLI demo:
 
 ```bash
-unicode-animations --list
-unicode-animations helix
-unicode-animations --web
+unicode-animatio --list
+unicode-animatio helix
+unicode-animatio --web
 ```
 
 ## Development basics

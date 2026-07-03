@@ -1,7 +1,7 @@
-# unicode-animations docs
+# unicode-animatio docs
 
 This directory is the package-local documentation root for
-`unicode-animations`.
+`unicode-animatio`.
 
 ## Package docs
 

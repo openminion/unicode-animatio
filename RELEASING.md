@@ -1,8 +1,11 @@
-# Releasing `unicode-animations`
+# Releasing `unicode-animatio`
 
 Status: `beta`
 Scope: package-local release contract for the standalone
-`unicode-animations` distribution
+`unicode-animatio` distribution
+
+Naming note: the public distribution and CLI names use `unicode-animatio`,
+while the source package and import root remain `unicode_animations`.
 
 ## Release contract
 
@@ -54,10 +57,10 @@ python3 -m build
 Fresh-install smoke:
 
 ```bash
-TMP_VENV="$(mktemp -d)/unicode-animations-venv"
+TMP_VENV="$(mktemp -d)/unicode-animatio-venv"
 python3 -m venv "$TMP_VENV"
-"$TMP_VENV/bin/pip" install dist/unicode_animations-*.whl
-"$TMP_VENV/bin/unicode-animations" --list
+"$TMP_VENV/bin/pip" install dist/unicode_animatio-*.whl
+"$TMP_VENV/bin/unicode-animatio" --list
 ```
 
 ## Publish sequence
