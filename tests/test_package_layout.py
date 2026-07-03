@@ -2,6 +2,8 @@ from __future__ import annotations
 
 from pathlib import Path
 
+from unicode_animations import BRAILLE_SPINNER_NAMES
+
 ROOT = Path(__file__).resolve().parents[1]
 PUBLIC_MARKDOWN = [
     ROOT / "README.md",
@@ -33,3 +35,10 @@ def test_public_markdown_surfaces_avoid_machine_local_paths() -> None:
         text = path.read_text(encoding="utf-8")
         for fragment in blocked_fragments:
             assert fragment not in text, f"{path.name} leaked {fragment}"
+
+
+def test_readme_lists_all_spinner_families() -> None:
+    text = (ROOT / "README.md").read_text(encoding="utf-8")
+    assert "## Available animations" in text
+    for name in BRAILLE_SPINNER_NAMES:
+        assert f"`{name}`" in text
