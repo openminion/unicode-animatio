@@ -1,6 +1,21 @@
-# unicode-animations
+<h1 align="center">unicode-animations</h1>
 
-Lightweight Unicode braille spinner animations for Python.
+<p align="center">
+  <strong>Lightweight Unicode braille spinner animations for Python.</strong>
+</p>
+
+<p align="center">
+  <a href="https://github.com/openminion/unicode-animations">GitHub</a>
+  · <a href="https://pypi.org/project/unicode-animations/">PyPI</a>
+  · <a href="https://www.openminion.com">Website</a>
+  · <a href="https://x.com/OpenMinion">X</a>
+</p>
+
+<p align="center">
+  <a href="https://pypi.org/project/unicode-animations/"><img alt="PyPI" src="https://img.shields.io/pypi/v/unicode-animations?color=3775A9"></a>
+  <a href="https://pypi.org/project/unicode-animations/"><img alt="Python" src="https://img.shields.io/pypi/pyversions/unicode-animations"></a>
+  <a href="LICENSE"><img alt="License" src="https://img.shields.io/badge/license-MIT-blue"></a>
+</p>
 
 - 18 spinner families as raw frame data
 - typed Python API with JS-style compatibility aliases
@@ -94,6 +109,40 @@ python examples/terminal_demo.py
 python examples/terminal_demo.py --seconds-per-spinner 2 --loops 2
 python examples/terminal_demo.py helix
 python examples/terminal_demo.py --list
+```
+
+## Available animations
+
+The package currently ships these braille spinner families. The preview glyph is
+the first frame from each animation:
+
+| Name | Preview | Frames | Interval |
+| --- | --- | ---: | ---: |
+| `braille` | `⠋` | 10 | 80ms |
+| `braillewave` | `⠁⠂⠄⡀` | 8 | 100ms |
+| `dna` | `⠋⠉⠙⠚` | 12 | 80ms |
+| `scan` | `⠀⠀⠀⠀` | 10 | 70ms |
+| `rain` | `⢁⠂⠔⠈` | 12 | 100ms |
+| `scanline` | `⠉⠉⠉` | 6 | 120ms |
+| `pulse` | `⠀⠶⠀` | 5 | 180ms |
+| `snake` | `⣁⡀` | 16 | 80ms |
+| `sparkle` | `⡡⠊⢔⠡` | 6 | 150ms |
+| `cascade` | `⠀⠀⠀⠀` | 14 | 60ms |
+| `columns` | `⡀⠀⠀` | 26 | 60ms |
+| `orbit` | `⠃` | 8 | 100ms |
+| `breathe` | `⠀` | 17 | 100ms |
+| `waverows` | `⠖⠉⠉⠑` | 16 | 90ms |
+| `checkerboard` | `⢕⢕⢕` | 4 | 250ms |
+| `helix` | `⢌⣉⢎⣉` | 16 | 80ms |
+| `fillsweep` | `⣀⣀` | 11 | 100ms |
+| `diagswipe` | `⠁⠀` | 16 | 60ms |
+
+For a live preview:
+
+```bash
+unicode-animations --list
+unicode-animations helix
+unicode-animations --web
 ```
 
 ## Development
