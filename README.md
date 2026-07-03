@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="https://www.openminion.com/brand/openminion-logo.png" alt="OpenMinion logo" width="128" />
+</p>
+
 <h1 align="center">unicode-animatio</h1>
 
 <p align="center">
@@ -6,12 +10,17 @@
 
 <p align="center">
   <a href="https://github.com/openminion/unicode-animatio">GitHub</a>
+  · <a href="#install">Install</a>
+  · <a href="#what-the-package-provides">What Ships</a>
   · <a href="https://www.openminion.com">Website</a>
   · <a href="https://x.com/OpenMinion">X</a>
 </p>
 
 <p align="center">
+  <img alt="Package version" src="https://img.shields.io/badge/package-0.1.0-3775A9">
+  <img alt="Python" src="https://img.shields.io/badge/python-3.9%2B-3775A9">
   <a href="LICENSE"><img alt="License" src="https://img.shields.io/badge/license-MIT-blue"></a>
+  <img alt="Status" src="https://img.shields.io/badge/status-beta-5B8DEF">
 </p>
 
 - 18 spinner families as raw frame data

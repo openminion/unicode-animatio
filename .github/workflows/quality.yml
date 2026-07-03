@@ -50,9 +50,13 @@ jobs:
           fi
           files=(
             .pre-commit-config.yaml
+            .github/release.yml
+            .github/workflows/release.yml
             .github/workflows/quality.yml
             CONTRIBUTING.md
+            docs/getting-started.md
             Makefile
+            README.md
             pyproject.toml
             scripts/validate_commit_message.py
           )
