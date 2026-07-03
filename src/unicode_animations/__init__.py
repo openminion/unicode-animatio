@@ -1,6 +1,6 @@
 """Unicode braille spinner animations for Python."""
 
-__version__ = "0.1.0"
+__version__ = "0.0.1"
 
 from .braille import (
     BRAILLE_SPINNER_NAMES,
