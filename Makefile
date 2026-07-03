@@ -12,9 +12,9 @@ RUFF := $(PYTHON) -m ruff
 help:
 	@printf '%s\n' \
 		'Targets:' \
-		'  make dev-install   Create/update .venv and install unicode-animations with dev extras' \
+		'  make dev-install   Create/update .venv and install unicode-animatio with dev extras' \
 		'  make hooks-install Install pre-commit and commit-msg hooks into .git/hooks' \
-		'  make hooks-run     Run pre-commit across the unicode-animations repo' \
+		'  make hooks-run     Run pre-commit across the unicode-animatio repo' \
 		'  make fix           Apply Ruff formatting and autofixes' \
 		'  make format        Run Ruff formatter' \
 		'  make format-check  Check formatting without changing files' \

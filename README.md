@@ -1,11 +1,11 @@
-<h1 align="center">unicode-animations</h1>
+<h1 align="center">unicode-animatio</h1>
 
 <p align="center">
   <strong>Lightweight Unicode braille spinner animations for Python.</strong>
 </p>
 
 <p align="center">
-  <a href="https://github.com/openminion/unicode-animations">GitHub</a>
+  <a href="https://github.com/openminion/unicode-animatio">GitHub</a>
   · <a href="https://www.openminion.com">Website</a>
   · <a href="https://x.com/OpenMinion">X</a>
 </p>
@@ -19,20 +19,24 @@
 - built-in terminal preview CLI and local browser demo
 - no runtime dependencies
 
+`unicode-animatio` is the public package and repo name. The Python import root
+remains `unicode_animations`, while the public CLI entrypoints use
+`unicode-animatio` and `unicode-animatio-web`.
+
 ## Official project links
 
-- GitHub: `https://github.com/openminion/unicode-animations`
-- Issues: `https://github.com/openminion/unicode-animations/issues`
+- GitHub: `https://github.com/openminion/unicode-animatio`
+- Issues: `https://github.com/openminion/unicode-animatio/issues`
 
 ## What the package provides
 
-`unicode-animations` provides:
+`unicode-animatio` provides:
 
 - immutable spinner frame data via `unicode_animations.spinners`
 - braille-grid helpers: `make_grid` and `grid_to_braille`
 - compatibility aliases: `makeGrid` and `gridToBraille`
-- a terminal preview CLI: `unicode-animations`
-- a local web preview CLI: `unicode-animations-web`
+- a terminal preview CLI: `unicode-animatio`
+- a local web preview CLI: `unicode-animatio-web`
 
 ## What the package does not provide
 
@@ -45,10 +49,10 @@ This package does not provide:
 
 ## Install
 
-From PyPI:
+Install from PyPI:
 
 ```bash
-python3 -m pip install unicode-animations
+python3 -m pip install unicode-animatio
 ```
 
 Editable install during local development:
@@ -86,17 +90,17 @@ print(grid_to_braille(grid))
 Terminal preview:
 
 ```bash
-unicode-animations --list
-unicode-animations
-unicode-animations helix
+unicode-animatio --list
+unicode-animatio
+unicode-animatio helix
 ```
 
 Local browser demo:
 
 ```bash
-unicode-animations --web
-unicode-animations-web --port 8765
-unicode-animations-web --host 0.0.0.0 --port 8765 --no-open
+unicode-animatio --web
+unicode-animatio-web --port 8765
+unicode-animatio-web --host 0.0.0.0 --port 8765 --no-open
 ```
 
 Python API terminal demo:
@@ -137,9 +141,9 @@ the first frame from each animation:
 For a live preview:
 
 ```bash
-unicode-animations --list
-unicode-animations helix
-unicode-animations --web
+unicode-animatio --list
+unicode-animatio helix
+unicode-animatio --web
 ```
 
 ## Development
@@ -163,11 +167,11 @@ python3 -m build
 
 ## Trust and Brand Safety
 
-- Official GitHub: `https://github.com/openminion/unicode-animations`
+- Official GitHub: `https://github.com/openminion/unicode-animatio`
 - Official website: `https://www.openminion.com`
 - Official X account: `https://x.com/OpenMinion`
 
-`unicode-animations` has no official token, coin, NFT, airdrop, staking
+`unicode-animatio` has no official token, coin, NFT, airdrop, staking
 program, treasury product, or investment offering. Any claim otherwise is
 unauthorized and should be treated as a scam.
 
@@ -177,11 +181,11 @@ unauthorized and should be treated as a scam.
 - Brand/trademark grant: `none`
 
 The software license grants rights to use, modify, and redistribute the code.
-It does **not** grant rights to use the unicode-animations or OpenMinion
+It does **not** grant rights to use the unicode-animatio or OpenMinion
 names, logos, branding, website identity, or social identity except for
 truthful attribution. Forks, clones, and derivative distributions must not
-present themselves as the official unicode-animations package or imply
-affiliation, endorsement, or maintenance by unicode-animations or OpenMinion
+present themselves as the official unicode-animatio package or imply
+affiliation, endorsement, or maintenance by unicode-animatio or OpenMinion
 contributors unless that is actually true.
 
 ## Community

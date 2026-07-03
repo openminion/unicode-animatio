@@ -3,14 +3,14 @@ requires = ["hatchling>=1.27.0"]
 build-backend = "hatchling.build"
 
 [project]
-name = "unicode-animations"
+name = "unicode-animatio"
 version = "0.1.0"
 description = "Unicode spinner animations as raw frame data for Python"
 readme = "README.md"
 requires-python = ">=3.9"
 license = { text = "MIT" }
 authors = [
-  { name = "unicode-animations contributors" },
+  { name = "unicode-animatio contributors" },
 ]
 keywords = ["braille", "spinner", "unicode", "animation", "loading", "cli", "terminal"]
 classifiers = [
@@ -29,14 +29,14 @@ classifiers = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/openminion/unicode-animations"
-Repository = "https://github.com/openminion/unicode-animations"
-Documentation = "https://github.com/openminion/unicode-animations/tree/main/docs"
-Issues = "https://github.com/openminion/unicode-animations/issues"
+Homepage = "https://github.com/openminion/unicode-animatio"
+Repository = "https://github.com/openminion/unicode-animatio"
+Documentation = "https://github.com/openminion/unicode-animatio/tree/main/docs"
+Issues = "https://github.com/openminion/unicode-animatio/issues"
 
 [project.scripts]
-unicode-animations = "unicode_animations.cli:main"
-unicode-animations-web = "unicode_animations.web:main"
+unicode-animatio = "unicode_animations.cli:main"
+unicode-animatio-web = "unicode_animations.web:main"
 
 [project.optional-dependencies]
 dev = [
