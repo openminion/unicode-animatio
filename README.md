@@ -6,14 +6,11 @@
 
 <p align="center">
   <a href="https://github.com/openminion/unicode-animations">GitHub</a>
-  · <a href="https://pypi.org/project/unicode-animations/">PyPI</a>
   · <a href="https://www.openminion.com">Website</a>
   · <a href="https://x.com/OpenMinion">X</a>
 </p>
 
 <p align="center">
-  <a href="https://pypi.org/project/unicode-animations/"><img alt="PyPI" src="https://img.shields.io/pypi/v/unicode-animations?color=3775A9"></a>
-  <a href="https://pypi.org/project/unicode-animations/"><img alt="Python" src="https://img.shields.io/pypi/pyversions/unicode-animations"></a>
   <a href="LICENSE"><img alt="License" src="https://img.shields.io/badge/license-MIT-blue"></a>
 </p>
 
