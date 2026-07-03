@@ -96,6 +96,40 @@ python examples/terminal_demo.py helix
 python examples/terminal_demo.py --list
 ```
 
+## Available animations
+
+The package currently ships these braille spinner families. The preview glyph is
+the first frame from each animation:
+
+| Name | Preview | Frames | Interval |
+| --- | --- | ---: | ---: |
+| `braille` | `⠋` | 10 | 80ms |
+| `braillewave` | `⠁⠂⠄⡀` | 8 | 100ms |
+| `dna` | `⠋⠉⠙⠚` | 12 | 80ms |
+| `scan` | `⠀⠀⠀⠀` | 10 | 70ms |
+| `rain` | `⢁⠂⠔⠈` | 12 | 100ms |
+| `scanline` | `⠉⠉⠉` | 6 | 120ms |
+| `pulse` | `⠀⠶⠀` | 5 | 180ms |
+| `snake` | `⣁⡀` | 16 | 80ms |
+| `sparkle` | `⡡⠊⢔⠡` | 6 | 150ms |
+| `cascade` | `⠀⠀⠀⠀` | 14 | 60ms |
+| `columns` | `⡀⠀⠀` | 26 | 60ms |
+| `orbit` | `⠃` | 8 | 100ms |
+| `breathe` | `⠀` | 17 | 100ms |
+| `waverows` | `⠖⠉⠉⠑` | 16 | 90ms |
+| `checkerboard` | `⢕⢕⢕` | 4 | 250ms |
+| `helix` | `⢌⣉⢎⣉` | 16 | 80ms |
+| `fillsweep` | `⣀⣀` | 11 | 100ms |
+| `diagswipe` | `⠁⠀` | 16 | 60ms |
+
+For a live preview:
+
+```bash
+unicode-animations --list
+unicode-animations helix
+unicode-animations --web
+```
+
 ## Development
 
 ```bash
