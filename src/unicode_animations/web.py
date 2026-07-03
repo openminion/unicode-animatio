@@ -36,7 +36,7 @@ def build_demo_html() -> str:
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>unicode-animations</title>
+  <title>unicode-animatio</title>
   <style>
     :root {
       --bg: #14171a;
@@ -171,7 +171,7 @@ def build_demo_html() -> str:
   <div class="wrap">
     <div class="top">
       <div>
-        <h1>unicode-animations</h1>
+        <h1>unicode-animatio</h1>
         <div class="sub">18 braille spinner animations served from local Python data</div>
       </div>
       <button class="toggle" id="themeToggle" type="button">Theme</button>
@@ -180,7 +180,7 @@ def build_demo_html() -> str:
     <div class="panel" id="spinnerPanel"></div>
 
     <div class="foot">
-      CLI: <code>unicode-animations --list</code> | <code>unicode-animations helix</code>
+      CLI: <code>unicode-animatio --list</code> | <code>unicode-animatio helix</code>
     </div>
   </div>
 
@@ -307,7 +307,7 @@ def serve_demo(host: str = "127.0.0.1", port: int = 0, open_browser: bool = True
     bound_host, bound_port = server.server_address
     url = f"http://{bound_host}:{bound_port}/"
 
-    print(f"Serving unicode-animations web demo at {url}")
+    print(f"Serving unicode-animatio web demo at {url}")
     print("Press Ctrl+C to stop.")
 
     if open_browser:
@@ -325,7 +325,7 @@ def serve_demo(host: str = "127.0.0.1", port: int = 0, open_browser: bool = True
 
 def _build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        prog="unicode-animations-web",
+        prog="unicode-animatio-web",
         description="Run a local browser demo for unicode_animations.",
     )
     parser.add_argument("--host", default="127.0.0.1", help="Host to bind (default: 127.0.0.1)")

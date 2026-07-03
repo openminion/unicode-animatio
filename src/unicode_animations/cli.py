@@ -21,7 +21,7 @@ CLEAR_LINE = "\r\x1b[2K"
 
 def _build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        prog="unicode-animations",
+        prog="unicode-animatio",
         description="Preview unicode braille spinner animations.",
     )
     parser.add_argument("name", nargs="?", help="Spinner name to preview")

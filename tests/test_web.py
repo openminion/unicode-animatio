@@ -22,7 +22,7 @@ def test_build_spinner_payload_shape() -> None:
 
 def test_build_demo_html_contains_expected_markers() -> None:
     html = build_demo_html()
-    assert "unicode-animations" in html
+    assert "unicode-animatio" in html
     assert "spinnerPanel" in html
     assert "fetch('/spinners.json')" in html
 
@@ -37,7 +37,7 @@ def test_demo_server_serves_index_and_spinner_json() -> None:
         with urllib.request.urlopen(f"http://{host}:{port}/", timeout=5) as response:
             html_body = response.read().decode("utf-8")
             assert response.status == 200
-            assert "unicode-animations" in html_body
+            assert "unicode-animatio" in html_body
 
         with urllib.request.urlopen(f"http://{host}:{port}/spinners.json", timeout=5) as response:
             payload = json.loads(response.read().decode("utf-8"))

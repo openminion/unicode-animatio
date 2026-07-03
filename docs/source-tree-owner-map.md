@@ -1,4 +1,4 @@
-# unicode-animations source tree owner map
+# unicode-animatio source tree owner map
 
 This document maps the main source and support files in the package so the
 public package boundary stays explicit.

@@ -16,15 +16,15 @@ def test_package_version_matches_pyproject() -> None:
 
 
 def test_project_urls_point_to_openminion_repo() -> None:
-    assert 'Homepage = "https://github.com/openminion/unicode-animations"' in PYPROJECT_TEXT
-    assert 'Repository = "https://github.com/openminion/unicode-animations"' in PYPROJECT_TEXT
+    assert 'Homepage = "https://github.com/openminion/unicode-animatio"' in PYPROJECT_TEXT
+    assert 'Repository = "https://github.com/openminion/unicode-animatio"' in PYPROJECT_TEXT
     assert (
-        'Documentation = "https://github.com/openminion/unicode-animations/tree/main/docs"'
+        'Documentation = "https://github.com/openminion/unicode-animatio/tree/main/docs"'
         in PYPROJECT_TEXT
     )
-    assert 'Issues = "https://github.com/openminion/unicode-animations/issues"' in PYPROJECT_TEXT
+    assert 'Issues = "https://github.com/openminion/unicode-animatio/issues"' in PYPROJECT_TEXT
 
 
 def test_console_scripts_match_public_package_contract() -> None:
-    assert 'unicode-animations = "unicode_animations.cli:main"' in PYPROJECT_TEXT
-    assert 'unicode-animations-web = "unicode_animations.web:main"' in PYPROJECT_TEXT
+    assert 'unicode-animatio = "unicode_animations.cli:main"' in PYPROJECT_TEXT
+    assert 'unicode-animatio-web = "unicode_animations.web:main"' in PYPROJECT_TEXT
