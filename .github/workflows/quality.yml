@@ -33,7 +33,7 @@ jobs:
         run: |
           set -euo pipefail
           if [[ "${GITHUB_EVENT_NAME}" == "pull_request" ]]; then
-            git fetch --no-tags --depth=1 origin "${GITHUB_BASE_REF}"
+            git fetch --no-tags origin "${GITHUB_BASE_REF}"
             base_commit="$(git merge-base HEAD FETCH_HEAD)"
             ./.venv/bin/python3.11 -m pre_commit run \
               --from-ref "${base_commit}" \
