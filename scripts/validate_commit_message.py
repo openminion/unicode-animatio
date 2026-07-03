@@ -6,7 +6,7 @@ import re
 import sys
 from pathlib import Path
 
-REPO_NAME = "unicode-animations"
+REPO_NAME = "unicode-animatio"
 REQUIRE_SCOPE = False
 ALLOWED_TYPES = ("feat", "fix", "docs", "refactor", "test", "chore", "style", "build")
 SCOPE_EXAMPLES = ("cli", "web", "braille", "docs", "release")
