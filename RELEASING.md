@@ -65,9 +65,28 @@ python3 -m venv "$TMP_VENV"
 
 ## Publish sequence
 
-1. Run `python3 scripts/release_check.py`
-2. Confirm the built wheel installs in a fresh virtualenv
-3. Publish the artifacts in `dist/` through the normal PyPI release path
+`unicode-animatio` follows the shared repo-family release flow documented in
+`docs/reference/package-release-process.md`:
+
+1. prepare and validate an RC branch,
+2. push an RC tag such as `v0.0.2rc1` to publish to TestPyPI,
+3. install and smoke-test the RC artifact from TestPyPI,
+4. prepare and validate the final non-RC branch,
+5. dispatch the `Release` workflow from that final branch with
+   `target=testpypi`,
+6. install and smoke-test the final TestPyPI artifact,
+7. push the final non-RC tag such as `v0.0.2` to publish to PyPI,
+8. create the GitHub Release using the bare version title, such as `0.0.2`.
+
+## GitHub Actions Trusted Publishing
+
+The canonical release workflow for this package is
+`.github/workflows/release.yml`.
+
+Trusted publishing must be configured for:
+
+1. TestPyPI environment: `testpypi`
+2. PyPI environment: `pypi`
 
 ## Notes
 
