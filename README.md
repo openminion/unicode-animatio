@@ -17,7 +17,7 @@
 </p>
 
 <p align="center">
-  <img alt="Package version" src="https://img.shields.io/badge/package-0.0.2-3775A9">
+  <img alt="Package version" src="https://img.shields.io/badge/package-0.0.2rc1-3775A9">
   <img alt="Python" src="https://img.shields.io/badge/python-3.9%2B-3775A9">
   <a href="LICENSE"><img alt="License" src="https://img.shields.io/badge/license-MIT-blue"></a>
   <img alt="Status" src="https://img.shields.io/badge/status-beta-5B8DEF">
