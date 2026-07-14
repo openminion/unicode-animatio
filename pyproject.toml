@@ -38,6 +38,9 @@ Issues = "https://github.com/openminion/unicode-animatio/issues"
 unicode-animatio = "unicode_animations.cli:main"
 unicode-animatio-web = "unicode_animations.web:main"
 
+[project.entry-points."openminion.cli.animation_providers"]
+unicode = "unicode_animations.provider:get_provider"
+
 [project.optional-dependencies]
 dev = [
   "build>=1.2.2",

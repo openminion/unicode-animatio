@@ -44,6 +44,7 @@ remains `unicode_animations`, while the public CLI entrypoints use
 - immutable spinner frame data via `unicode_animations.spinners`
 - braille-grid helpers: `make_grid` and `grid_to_braille`
 - compatibility aliases: `makeGrid` and `gridToBraille`
+- a structural animation provider entry point for consumers such as OpenMinion
 - a terminal preview CLI: `unicode-animatio`
 - a local web preview CLI: `unicode-animatio-web`
 
@@ -53,6 +54,7 @@ This package does not provide:
 
 - async terminal rendering frameworks
 - progress bars, task orchestration, or job-state tracking
+- ANSI styling, background colors, or status text in frame data
 - hosted demo infrastructure or remote APIs
 - framework-specific adapters for Rich, Textual, or Typer
 
@@ -94,6 +96,22 @@ grid[3][3] = True
 print(grid_to_braille(grid))
 ```
 
+Provider boundary:
+
+```python
+from unicode_animations import get_provider
+
+provider = get_provider()
+spec = provider.get("helix")
+print(provider.provider_id)
+print(spec.frames)
+print(spec.interval_ms)
+```
+
+The provider returns raw frame strings and timing only. Foreground colors,
+backgrounds, reduced-motion behavior, labels, and layout remain owned by the
+rendering application.
+
 ## CLI and demos
 
 Terminal preview:
@@ -102,6 +120,7 @@ Terminal preview:
 unicode-animatio --list
 unicode-animatio
 unicode-animatio helix
+unicode-animatio helix --color auto --foreground gray
 ```
 
 Local browser demo:

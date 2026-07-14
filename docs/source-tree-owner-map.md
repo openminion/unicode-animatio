@@ -22,6 +22,8 @@ public package boundary stays explicit.
   - spinner frame data, grid helpers, and deterministic frame generation
 - `src/unicode_animations/cli.py`
   - terminal preview CLI
+- `src/unicode_animations/provider.py`
+  - structural provider entry point for applications that consume frame data
 - `src/unicode_animations/web.py`
   - local browser demo server and web CLI
 - `src/unicode_animations/__main__.py`
@@ -42,6 +44,8 @@ public package boundary stays explicit.
   - grid-helper and spinner snapshot coverage
 - `tests/test_cli.py`
   - terminal CLI contract checks
+- `tests/test_provider.py`
+  - structural provider and catalog conformance checks
 - `tests/test_web.py`
   - local browser demo payload and HTTP coverage
 - `tests/test_package.py`

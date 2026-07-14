@@ -28,3 +28,8 @@ def test_project_urls_point_to_openminion_repo() -> None:
 def test_console_scripts_match_public_package_contract() -> None:
     assert 'unicode-animatio = "unicode_animations.cli:main"' in PYPROJECT_TEXT
     assert 'unicode-animatio-web = "unicode_animations.web:main"' in PYPROJECT_TEXT
+
+
+def test_openminion_animation_provider_entry_point_is_declared() -> None:
+    assert '[project.entry-points."openminion.cli.animation_providers"]' in PYPROJECT_TEXT
+    assert 'unicode = "unicode_animations.provider:get_provider"' in PYPROJECT_TEXT

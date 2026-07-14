@@ -10,6 +10,7 @@ from .braille import (
     make_grid,
     spinners,
 )
+from .provider import AnimationSpec, UnicodeAnimationProvider, get_provider
 
 # Compatibility aliases mirroring the original JavaScript API style.
 gridToBraille = grid_to_braille
@@ -19,10 +20,13 @@ __all__ = [
     "__version__",
     "Spinner",
     "BrailleSpinnerName",
+    "AnimationSpec",
+    "UnicodeAnimationProvider",
     "BRAILLE_SPINNER_NAMES",
     "spinners",
     "grid_to_braille",
     "make_grid",
     "gridToBraille",
     "makeGrid",
+    "get_provider",
 ]

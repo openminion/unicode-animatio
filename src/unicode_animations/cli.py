@@ -3,9 +3,11 @@
 from __future__ import annotations
 
 import argparse
+import os
 import sys
 import time
 from collections.abc import Sequence
+from dataclasses import dataclass
 
 from .braille import BRAILLE_SPINNER_NAMES, spinners
 from .web import serve_demo
@@ -15,8 +17,78 @@ SHOW_CURSOR = "\x1b[?25h"
 BOLD = "\x1b[1m"
 DIM = "\x1b[2m"
 MAGENTA = "\x1b[35m"
+GRAY = "\x1b[90m"
+CYAN = "\x1b[36m"
+GREEN = "\x1b[32m"
+YELLOW = "\x1b[33m"
+BLUE = "\x1b[34m"
+WHITE = "\x1b[37m"
 RESET = "\x1b[0m"
 CLEAR_LINE = "\r\x1b[2K"
+
+COLOR_STYLES = {
+    "magenta": MAGENTA,
+    "gray": GRAY,
+    "cyan": CYAN,
+    "green": GREEN,
+    "yellow": YELLOW,
+    "blue": BLUE,
+    "white": WHITE,
+}
+
+
+@dataclass(frozen=True)
+class PreviewStyle:
+    color_enabled: bool
+    frame_style: str
+    text_style: str
+    detail_style: str
+
+
+def _resolve_preview_style(
+    *,
+    color: str,
+    foreground: str,
+    is_tty: bool,
+    no_color: bool | None = None,
+) -> PreviewStyle:
+    no_color_active = bool(os.environ.get("NO_COLOR")) if no_color is None else no_color
+    color_enabled = color == "always" or (color == "auto" and is_tty)
+    if color == "never" or no_color_active:
+        color_enabled = False
+    if not color_enabled:
+        return PreviewStyle(
+            color_enabled=False,
+            frame_style="",
+            text_style="",
+            detail_style="",
+        )
+    return PreviewStyle(
+        color_enabled=True,
+        frame_style=COLOR_STYLES[foreground],
+        text_style=BOLD,
+        detail_style=DIM,
+    )
+
+
+def _styled(text: str, code: str) -> str:
+    return f"{code}{text}{RESET}" if code else text
+
+
+def _render_preview_line(
+    *,
+    frame: str,
+    spinner_name: str,
+    interval: int,
+    count: str,
+    style: PreviewStyle,
+) -> str:
+    return (
+        f"{CLEAR_LINE}  {_styled(frame, style.frame_style)}  "
+        f"{_styled(spinner_name, style.text_style)} "
+        f"{_styled(f'{interval}ms', style.detail_style)}  "
+        f"{_styled(count, style.detail_style)}"
+    )
 
 
 def _build_parser() -> argparse.ArgumentParser:
@@ -28,6 +100,18 @@ def _build_parser() -> argparse.ArgumentParser:
     parser.add_argument("-l", "--list", action="store_true", help="List available spinners")
     parser.add_argument("-w", "--web", action="store_true", help="Open browser demo")
     parser.add_argument("--port", type=int, default=0, help="Port for --web mode (default: auto)")
+    parser.add_argument(
+        "--color",
+        choices=("auto", "always", "never"),
+        default="auto",
+        help="Colorize terminal preview output (default: auto)",
+    )
+    parser.add_argument(
+        "--foreground",
+        choices=tuple(COLOR_STYLES),
+        default="magenta",
+        help="Foreground color for animated frames when color is enabled",
+    )
     return parser
 
 
@@ -39,7 +123,12 @@ def _print_list() -> None:
         print(f"  {spinner.frames[0]}  {name} ({len(spinner.frames)} frames, {spinner.interval}ms)")
 
 
-def _animate(name: str | None) -> int:
+def _animate(
+    name: str | None,
+    *,
+    color: str = "auto",
+    foreground: str = "magenta",
+) -> int:
     names = list(BRAILLE_SPINNER_NAMES)
 
     if not sys.stdout.isatty():
@@ -51,6 +140,11 @@ def _animate(name: str | None) -> int:
     frame_idx = 0
     ticks_on_current = 0
     ticks_per_spinner = 40
+    preview_style = _resolve_preview_style(
+        color=color,
+        foreground=foreground,
+        is_tty=True,
+    )
 
     sys.stdout.write(HIDE_CURSOR)
     sys.stdout.flush()
@@ -63,8 +157,13 @@ def _animate(name: str | None) -> int:
             count = "" if single else f"[{current + 1}/{len(names)}]"
 
             sys.stdout.write(
-                f"{CLEAR_LINE}  {MAGENTA}{frame}{RESET}  {BOLD}{spinner_name}{RESET} "
-                f"{DIM}{spinner.interval}ms{RESET}  {DIM}{count}{RESET}"
+                _render_preview_line(
+                    frame=frame,
+                    spinner_name=spinner_name,
+                    interval=spinner.interval,
+                    count=count,
+                    style=preview_style,
+                )
             )
             sys.stdout.flush()
 
@@ -101,7 +200,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         print("Run with --list to see all spinners.", file=sys.stderr)
         return 1
 
-    return _animate(args.name)
+    return _animate(args.name, color=args.color, foreground=args.foreground)
 
 
 if __name__ == "__main__":
