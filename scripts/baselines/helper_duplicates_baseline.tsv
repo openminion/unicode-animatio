@@ -1,0 +1,2 @@
+# Format: directory<TAB>function<TAB>files<TAB>reason
+src/unicode_animations	_build_parser	src/unicode_animations/cli.py,src/unicode_animations/web.py	existing duplicate private helper ratchet

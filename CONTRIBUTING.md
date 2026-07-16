@@ -9,7 +9,12 @@ Thanks for your interest in improving `unicode-animatio`.
 3. [docs/README.md](./docs/README.md)
 4. [docs/getting-started.md](./docs/getting-started.md)
 5. [docs/source-tree-owner-map.md](./docs/source-tree-owner-map.md)
-6. [RELEASING.md](./RELEASING.md) when the work affects packaging or release
+6. [CODE_QUALITY.md](./CODE_QUALITY.md)
+7. [docs/engineering-patterns.md](./docs/engineering-patterns.md)
+8. [docs/code-quality-enforcement.md](./docs/code-quality-enforcement.md)
+9. [docs/cleanup-workflow.md](./docs/cleanup-workflow.md) for cleanup,
+   simplification, or maintainability work
+10. [RELEASING.md](./RELEASING.md) when the work affects packaging or release
    behavior
 
 Treat the package README and API compatibility policy as the stable public

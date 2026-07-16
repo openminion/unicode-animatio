@@ -11,6 +11,8 @@ public package boundary stays explicit.
   - public import roots, public names, and compatibility expectations
 - `RELEASING.md`
   - package-local release contract and validation sequence
+- `CODE_QUALITY.md`
+  - public contributor quality and hygiene baseline
 - `pyproject.toml`
   - packaging metadata, script entrypoints, and test/lint configuration
 
@@ -35,8 +37,14 @@ public package boundary stays explicit.
   - Python-API demo for local manual preview
 - `scripts/release_check.py`
   - package-local release validation helper
-- `.github/workflows/ci.yml`
-  - GitHub Actions CI for test, Ruff, and build checks
+- `scripts/validate_quality_patterns.py`
+  - structural quality ratchets shared by local checks, hooks, and CI
+- `scripts/baselines/`
+  - current accepted structural findings; new debt must not exceed them
+- `.github/workflows/quality.yml`
+  - pull-request and protected-branch quality checks
+- `.github/workflows/release.yml`
+  - tagged package build and publish workflow
 
 ## Tests
 
@@ -57,6 +65,7 @@ public package boundary stays explicit.
 
 ## Non-source artifacts
 
-- `workspace-tmp/`
-  - ad hoc cleanup, scan, or review artifacts
-  - not part of the package contract and should stay uncommitted
+- Ad hoc cleanup, scan, and review artifacts belong in the containing
+  workspace's external scratch root.
+- Do not create a package-local scratch tree or commit those artifacts; they
+  are not part of the package contract.

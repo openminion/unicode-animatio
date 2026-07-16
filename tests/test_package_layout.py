@@ -8,8 +8,12 @@ ROOT = Path(__file__).resolve().parents[1]
 PUBLIC_MARKDOWN = [
     ROOT / "README.md",
     ROOT / "API_COMPATIBILITY.md",
+    ROOT / "CODE_QUALITY.md",
     ROOT / "RELEASING.md",
     ROOT / "docs" / "README.md",
+    ROOT / "docs" / "cleanup-workflow.md",
+    ROOT / "docs" / "code-quality-enforcement.md",
+    ROOT / "docs" / "engineering-patterns.md",
     ROOT / "docs" / "source-tree-owner-map.md",
     ROOT / "CONTRIBUTING.md",
 ]
@@ -19,9 +23,14 @@ def test_required_public_package_docs_exist() -> None:
     required_paths = [
         ROOT / "README.md",
         ROOT / "API_COMPATIBILITY.md",
+        ROOT / "CODE_QUALITY.md",
         ROOT / "RELEASING.md",
         ROOT / "docs" / "README.md",
+        ROOT / "docs" / "cleanup-workflow.md",
+        ROOT / "docs" / "code-quality-enforcement.md",
+        ROOT / "docs" / "engineering-patterns.md",
         ROOT / "docs" / "source-tree-owner-map.md",
+        ROOT / "scripts" / "validate_quality_patterns.py",
         ROOT / "scripts" / "release_check.py",
     ]
     missing = [path.relative_to(ROOT).as_posix() for path in required_paths if not path.exists()]

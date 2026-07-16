@@ -1,0 +1,2 @@
+# Format: path<TAB>underscore_count
+scripts/validate_commit_message.py	2
