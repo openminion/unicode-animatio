@@ -30,6 +30,27 @@ Before substantial code changes, read:
 4. Run the smallest validation that proves the change.
 5. Record validation commands in the PR description.
 
+## Browse and preview animations
+
+```bash
+unicode-animatio --categories
+unicode-animatio --list --category graph
+unicode-animatio edgepulse --color auto --foreground gray
+unicode-animatio-web --port 8765
+```
+
+The package exposes raw frames and timing. Terminal and browser renderers own
+foreground color, backgrounds, labels, layout, and reduced-motion behavior.
+
+Category-aware Python API:
+
+```python
+from unicode_animations import SPINNER_CATEGORIES, spinner_names_for_category
+
+print(spinner_names_for_category("graph"))
+print(SPINNER_CATEGORIES["edgepulse"])
+```
+
 ## Validation baseline
 
 ```bash

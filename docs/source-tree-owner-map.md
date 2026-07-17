@@ -21,7 +21,9 @@ public package boundary stays explicit.
 - `src/unicode_animations/__init__.py`
   - package metadata, public exports, and compatibility aliases
 - `src/unicode_animations/braille.py`
-  - spinner frame data, grid helpers, and deterministic frame generation
+  - original braille frame data, grid helpers, and deterministic frame generation
+- `src/unicode_animations/catalog.py`
+  - canonical mixed Unicode/ASCII catalog, categories, and compatibility names
 - `src/unicode_animations/cli.py`
   - terminal preview CLI
 - `src/unicode_animations/provider.py`
@@ -50,6 +52,8 @@ public package boundary stays explicit.
 
 - `tests/test_braille.py`
   - grid-helper and spinner snapshot coverage
+- `tests/test_catalog.py`
+  - canonical catalog, category, snapshot, and terminal-safety conformance
 - `tests/test_cli.py`
   - terminal CLI contract checks
 - `tests/test_provider.py`

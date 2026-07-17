@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from .braille import BRAILLE_SPINNER_NAMES, spinners
+from .catalog import SPINNER_NAMES, spinners
 
 
 @dataclass(frozen=True)
@@ -23,7 +23,7 @@ class UnicodeAnimationProvider:
     provider_id = "unicode"
 
     def names(self) -> tuple[str, ...]:
-        return tuple(BRAILLE_SPINNER_NAMES)
+        return tuple(SPINNER_NAMES)
 
     def get(self, name: str) -> AnimationSpec:
         if name not in spinners:

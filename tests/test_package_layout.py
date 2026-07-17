@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from unicode_animations import BRAILLE_SPINNER_NAMES
+from unicode_animations import SPINNER_NAMES
 
 ROOT = Path(__file__).resolve().parents[1]
 PUBLIC_MARKDOWN = [
@@ -49,5 +49,5 @@ def test_public_markdown_surfaces_avoid_machine_local_paths() -> None:
 def test_readme_lists_all_spinner_families() -> None:
     text = (ROOT / "README.md").read_text(encoding="utf-8")
     assert "## Available animations" in text
-    for name in BRAILLE_SPINNER_NAMES:
+    for name in SPINNER_NAMES:
         assert f"`{name}`" in text

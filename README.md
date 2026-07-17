@@ -5,7 +5,7 @@
 <h1 align="center">unicode-animatio</h1>
 
 <p align="center">
-  <strong>Lightweight Unicode braille spinner animations for Python.</strong>
+  <strong>Lightweight Unicode and ASCII terminal animations for Python.</strong>
 </p>
 
 <p align="center">
@@ -23,7 +23,8 @@
   <img alt="Status" src="https://img.shields.io/badge/status-beta-5B8DEF">
 </p>
 
-- 18 spinner families as raw frame data
+- 58 terminal animation families as raw frame data
+- 10 categories for browsing and selection
 - typed Python API with JS-style compatibility aliases
 - built-in terminal preview CLI and local browser demo
 - no runtime dependencies
@@ -42,6 +43,8 @@ remains `unicode_animations`, while the public CLI entrypoints use
 `unicode-animatio` provides:
 
 - immutable spinner frame data via `unicode_animations.spinners`
+- canonical names and categories via `SPINNER_NAMES`, `CATEGORY_NAMES`, and
+  `SPINNER_CATEGORIES`
 - braille-grid helpers: `make_grid` and `grid_to_braille`
 - compatibility aliases: `makeGrid` and `gridToBraille`
 - a structural animation provider entry point for consumers such as OpenMinion
@@ -118,8 +121,11 @@ Terminal preview:
 
 ```bash
 unicode-animatio --list
+unicode-animatio --categories
+unicode-animatio --list --category graph
 unicode-animatio
 unicode-animatio helix
+unicode-animatio edgepulse
 unicode-animatio helix --color auto --foreground gray
 ```
 
@@ -142,35 +148,50 @@ python examples/terminal_demo.py --list
 
 ## Available animations
 
-The package currently ships these braille spinner families. The preview glyph is
-the first frame from each animation:
+The package ships 58 deterministic animations across 10 categories:
 
-| Name | Preview | Frames | Interval |
-| --- | --- | ---: | ---: |
-| `braille` | `⠋` | 10 | 80ms |
-| `braillewave` | `⠁⠂⠄⡀` | 8 | 100ms |
-| `dna` | `⠋⠉⠙⠚` | 12 | 80ms |
-| `scan` | `⠀⠀⠀⠀` | 10 | 70ms |
-| `rain` | `⢁⠂⠔⠈` | 12 | 100ms |
-| `scanline` | `⠉⠉⠉` | 6 | 120ms |
-| `pulse` | `⠀⠶⠀` | 5 | 180ms |
-| `snake` | `⣁⡀` | 16 | 80ms |
-| `sparkle` | `⡡⠊⢔⠡` | 6 | 150ms |
-| `cascade` | `⠀⠀⠀⠀` | 14 | 60ms |
-| `columns` | `⡀⠀⠀` | 26 | 60ms |
-| `orbit` | `⠃` | 8 | 100ms |
-| `breathe` | `⠀` | 17 | 100ms |
-| `waverows` | `⠖⠉⠉⠑` | 16 | 90ms |
-| `checkerboard` | `⢕⢕⢕` | 4 | 250ms |
-| `helix` | `⢌⣉⢎⣉` | 16 | 80ms |
-| `fillsweep` | `⣀⣀` | 11 | 100ms |
-| `diagswipe` | `⠁⠀` | 16 | 60ms |
+| Category | Presets |
+| --- | --- |
+| `subtle` | `braille`, `pulse`, `orbit`, `breathe`, `softdot`, `slowbreath`, `quietorbit`, `dimwave` |
+| `scan` | `scan`, `scanline`, `snake`, `diagswipe`, `hscan`, `vscan`, `radar`, `focusbeam` |
+| `build` | `blocks`, `stack`, `assemble`, `brickline` |
+| `thinking` | `ellipsis`, `mindwave`, `synapse`, `neuron` |
+| `tool` | `terminalblink`, `gearspin`, `wrench`, `sparkplug` |
+| `data` | `braillewave`, `dna`, `rain`, `cascade`, `columns`, `waverows`, `helix`, `bitstream`, `packetflow`, `matrixrain`, `columns2` |
+| `graph` | `nodes`, `edgepulse`, `cluster`, `orbitnodes` |
+| `progress` | `fillsweep`, `meter`, `ladder`, `risingblocks`, `fillbar2` |
+| `alert` | `sparkle`, `warningpulse`, `heartbeat`, `ping`, `flashdot` |
+| `dense` | `checkerboard`, `plasma`, `noise`, `moire`, `shimmergrid` |
+
+Selected first-frame examples:
+
+| Name | Category | First frame | Interval |
+| --- | --- | --- | ---: |
+| `braille` | `subtle` | `⠋` | 80ms |
+| `focusbeam` | `scan` | `----` | 90ms |
+| `synapse` | `thinking` | `*..` | 100ms |
+| `terminalblink` | `tool` | `$_` | 160ms |
+| `packetflow` | `data` | `[>]---` | 100ms |
+| `edgepulse` | `graph` | `o---o` | 90ms |
+| `meter` | `progress` | `[   ]` | 120ms |
+| `shimmergrid` | `dense` | `.+.` | 90ms |
+
+## Choosing a preset
+
+- Use `subtle` for calm background activity.
+- Use `scan` or `data` for indexing and retrieval work.
+- Use `thinking` for model activity and `tool` for command execution.
+- Use `graph` for relation traversal and knowledge-graph work.
+- Use `progress` when steady forward motion matters.
+- Use `alert` sparingly for attention states.
 
 For a live preview:
 
 ```bash
 unicode-animatio --list
-unicode-animatio helix
+unicode-animatio --categories
+unicode-animatio --list --category graph
+unicode-animatio edgepulse --foreground gray
 unicode-animatio --web
 ```
 

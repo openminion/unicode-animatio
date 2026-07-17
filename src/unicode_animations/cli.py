@@ -9,7 +9,13 @@ import time
 from collections.abc import Sequence
 from dataclasses import dataclass
 
-from .braille import BRAILLE_SPINNER_NAMES, spinners
+from .catalog import (
+    CATEGORY_NAMES,
+    SPINNER_CATEGORIES,
+    SPINNER_NAMES,
+    spinner_names_for_category,
+    spinners,
+)
 from .web import serve_demo
 
 HIDE_CURSOR = "\x1b[?25l"
@@ -94,11 +100,14 @@ def _render_preview_line(
 def _build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="unicode-animatio",
-        description="Preview unicode braille spinner animations.",
+        description="Preview Unicode and ASCII terminal animations.",
     )
     parser.add_argument("name", nargs="?", help="Spinner name to preview")
-    parser.add_argument("-l", "--list", action="store_true", help="List available spinners")
-    parser.add_argument("-w", "--web", action="store_true", help="Open browser demo")
+    mode = parser.add_mutually_exclusive_group()
+    mode.add_argument("-l", "--list", action="store_true", help="List available spinners")
+    mode.add_argument("--categories", action="store_true", help="List spinner categories")
+    mode.add_argument("-w", "--web", action="store_true", help="Open browser demo")
+    parser.add_argument("--category", choices=CATEGORY_NAMES, help="Filter --list by category")
     parser.add_argument("--port", type=int, default=0, help="Port for --web mode (default: auto)")
     parser.add_argument(
         "--color",
@@ -115,12 +124,23 @@ def _build_parser() -> argparse.ArgumentParser:
     return parser
 
 
-def _print_list() -> None:
-    names = list(BRAILLE_SPINNER_NAMES)
-    print(f"{len(names)} spinners available:\n")
+def _print_categories() -> None:
+    print(f"{len(CATEGORY_NAMES)} categories available:\n")
+    for category in CATEGORY_NAMES:
+        print(f"  {category} ({len(spinner_names_for_category(category))} spinners)")
+
+
+def _print_list(category: str | None = None) -> None:
+    names = SPINNER_NAMES if category is None else spinner_names_for_category(category)
+    label = "spinners" if category is None else f"{category} spinners"
+    print(f"{len(names)} {label} available:\n")
     for name in names:
         spinner = spinners[name]
-        print(f"  {spinner.frames[0]}  {name} ({len(spinner.frames)} frames, {spinner.interval}ms)")
+        category_name = SPINNER_CATEGORIES[name]
+        print(
+            f"  {spinner.frames[0]}  {name} "
+            f"[{category_name}] ({len(spinner.frames)} frames, {spinner.interval}ms)"
+        )
 
 
 def _animate(
@@ -129,7 +149,7 @@ def _animate(
     color: str = "auto",
     foreground: str = "magenta",
 ) -> int:
-    names = list(BRAILLE_SPINNER_NAMES)
+    names = list(SPINNER_NAMES)
 
     if not sys.stdout.isatty():
         _print_list()
@@ -188,11 +208,18 @@ def main(argv: Sequence[str] | None = None) -> int:
     parser = _build_parser()
     args = parser.parse_args(argv)
 
+    if args.category and not args.list:
+        parser.error("--category requires --list")
+
     if args.web:
         return serve_demo(port=args.port, open_browser=True)
 
     if args.list:
-        _print_list()
+        _print_list(args.category)
+        return 0
+
+    if args.categories:
+        _print_categories()
         return 0
 
     if args.name and args.name not in spinners:
