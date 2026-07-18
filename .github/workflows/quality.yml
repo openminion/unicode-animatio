@@ -53,12 +53,20 @@ jobs:
             .github/release.yml
             .github/workflows/release.yml
             .github/workflows/quality.yml
+            CODE_QUALITY.md
             CONTRIBUTING.md
+            docs/README.md
+            docs/cleanup-workflow.md
+            docs/code-quality-enforcement.md
+            docs/engineering-patterns.md
             docs/getting-started.md
+            docs/source-tree-owner-map.md
             Makefile
             README.md
             pyproject.toml
+            scripts/validate_quality_patterns.py
             scripts/validate_commit_message.py
+            tests/test_quality_scripts.py
           )
           ./.venv/bin/python3.11 -m pre_commit run \
             --files "${files[@]}" \

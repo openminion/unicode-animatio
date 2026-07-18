@@ -10,12 +10,13 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from typing import TypedDict
 from urllib.parse import urlparse
 
-from .braille import BRAILLE_SPINNER_NAMES, spinners
+from .catalog import SPINNER_CATEGORIES, SPINNER_NAMES, spinners
 
 
 class SpinnerPayload(TypedDict):
     frames: list[str]
     interval: int
+    category: str
 
 
 def build_spinner_payload() -> dict[str, SpinnerPayload]:
@@ -24,14 +25,15 @@ def build_spinner_payload() -> dict[str, SpinnerPayload]:
         name: {
             "frames": list(spinners[name].frames),
             "interval": spinners[name].interval,
+            "category": SPINNER_CATEGORIES[name],
         }
-        for name in BRAILLE_SPINNER_NAMES
+        for name in SPINNER_NAMES
     }
 
 
 def build_demo_html() -> str:
     """Return demo HTML that loads spinner data from /spinners.json."""
-    return """<!DOCTYPE html>
+    html = """<!DOCTYPE html>
 <html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
@@ -172,7 +174,7 @@ def build_demo_html() -> str:
     <div class="top">
       <div>
         <h1>unicode-animatio</h1>
-        <div class="sub">18 braille spinner animations served from local Python data</div>
+        <div class="sub">__CATALOG_COUNT__ terminal animations served from local Python data</div>
       </div>
       <button class="toggle" id="themeToggle" type="button">Theme</button>
     </div>
@@ -203,7 +205,7 @@ def build_demo_html() -> str:
 
         const meta = document.createElement('span');
         meta.className = 'meta';
-        meta.textContent = `${s.frames.length}f / ${s.interval}ms`;
+        meta.textContent = `${s.category} / ${s.frames.length}f / ${s.interval}ms`;
 
         row.append(frame, label, meta);
         panel.appendChild(row);
@@ -246,6 +248,7 @@ def build_demo_html() -> str:
 </body>
 </html>
 """
+    return html.replace("__CATALOG_COUNT__", str(len(SPINNER_NAMES)))
 
 
 def create_demo_server(host: str = "127.0.0.1", port: int = 0) -> ThreadingHTTPServer:

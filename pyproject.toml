@@ -5,14 +5,14 @@ build-backend = "hatchling.build"
 [project]
 name = "unicode-animatio"
 version = "0.0.2"
-description = "Unicode spinner animations as raw frame data for Python"
+description = "Unicode and ASCII terminal animations as raw frame data for Python"
 readme = "README.md"
 requires-python = ">=3.9"
 license = { text = "MIT" }
 authors = [
   { name = "unicode-animatio contributors" },
 ]
-keywords = ["braille", "spinner", "unicode", "animation", "loading", "cli", "terminal"]
+keywords = ["ascii", "braille", "spinner", "unicode", "animation", "loading", "cli", "terminal"]
 classifiers = [
   "Development Status :: 4 - Beta",
   "Intended Audience :: Developers",
@@ -38,12 +38,17 @@ Issues = "https://github.com/openminion/unicode-animatio/issues"
 unicode-animatio = "unicode_animations.cli:main"
 unicode-animatio-web = "unicode_animations.web:main"
 
+[project.entry-points."openminion.cli.animation_providers"]
+unicode = "unicode_animations.provider:get_provider"
+
 [project.optional-dependencies]
 dev = [
   "build>=1.2.2",
   "pre-commit>=4,<5",
   "pytest>=8.0.0",
   "ruff>=0.11.0",
+  "tomli>=2.0.0; python_version < '3.11'",
+  "wcwidth>=0.2.13",
 ]
 
 [tool.pytest.ini_options]

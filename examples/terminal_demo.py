@@ -7,7 +7,7 @@ import argparse
 import sys
 import time
 
-from unicode_animations import BRAILLE_SPINNER_NAMES, spinners
+from unicode_animations import SPINNER_NAMES, spinners
 
 HIDE_CURSOR = "\x1b[?25l"
 SHOW_CURSOR = "\x1b[?25h"
@@ -36,8 +36,8 @@ def _build_parser() -> argparse.ArgumentParser:
 
 
 def _print_list() -> None:
-    print(f"{len(BRAILLE_SPINNER_NAMES)} spinners:\n")
-    for name in BRAILLE_SPINNER_NAMES:
+    print(f"{len(SPINNER_NAMES)} spinners:\n")
+    for name in SPINNER_NAMES:
         spinner = spinners[name]
         print(f"  {spinner.frames[0]}  {name} ({len(spinner.frames)} frames, {spinner.interval}ms)")
 
@@ -71,7 +71,7 @@ def main() -> int:
         _print_list()
         return 0
 
-    names = [args.name] if args.name else list(BRAILLE_SPINNER_NAMES)
+    names = [args.name] if args.name else list(SPINNER_NAMES)
 
     sys.stdout.write(HIDE_CURSOR)
     sys.stdout.flush()

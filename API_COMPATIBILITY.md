@@ -13,6 +13,7 @@ The current public import roots are:
 
 - `unicode_animations`
 - `unicode_animations.cli`
+- `unicode_animations.provider`
 - `unicode_animations.web`
 
 ## Stable public names
@@ -20,6 +21,12 @@ The current public import roots are:
 The package currently treats these names as public:
 
 - `Spinner`
+- `SpinnerName`
+- `SPINNER_NAMES`
+- `CategoryName`
+- `CATEGORY_NAMES`
+- `SPINNER_CATEGORIES`
+- `spinner_names_for_category`
 - `BrailleSpinnerName`
 - `BRAILLE_SPINNER_NAMES`
 - `spinners`
@@ -27,6 +34,9 @@ The package currently treats these names as public:
 - `grid_to_braille`
 - `makeGrid`
 - `gridToBraille`
+- `AnimationSpec`
+- `UnicodeAnimationProvider`
+- `get_provider`
 
 ## CLI contract
 
@@ -35,11 +45,36 @@ The package currently treats these console scripts as public:
 - `unicode-animatio`
 - `unicode-animatio-web`
 
+## Provider entry point
+
+The package declares this structural provider entry point for applications that
+consume animation frames without importing CLI preview code:
+
+- group: `openminion.cli.animation_providers`
+- name: `unicode`
+- target: `unicode_animations.provider:get_provider`
+
+Provider payloads are raw frame strings and millisecond timing only. Renderer
+colors, backgrounds, labels, layout, and accessibility policy are not part of
+the provider contract.
+
+## Catalog naming compatibility
+
+`SpinnerName` and `SPINNER_NAMES` are the canonical mixed Unicode/ASCII
+catalog surfaces. `BrailleSpinnerName` and `BRAILLE_SPINNER_NAMES` remain
+identity aliases over the complete catalog for compatibility with existing
+imports. New integrations should use the canonical general names.
+
+Every canonical name has exactly one value in `SPINNER_CATEGORIES`.
+`spinner_names_for_category()` returns names in catalog order and raises
+`KeyError` for an unknown category.
+
 ## Compatibility policy
 
 For the current beta surface:
 
 - new public names may be added in minor releases
+- existing catalog order and category assignments remain deterministic
 - existing public names should not be renamed or removed without a documented
   compatibility note
 - JS-style aliases remain part of the compatibility surface until this file

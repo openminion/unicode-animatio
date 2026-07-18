@@ -5,7 +5,8 @@ from pathlib import Path
 
 import pytest
 
-from unicode_animations import BRAILLE_SPINNER_NAMES, grid_to_braille, make_grid, spinners
+from unicode_animations import grid_to_braille, make_grid
+from unicode_animations.braille import BRAILLE_SPINNER_NAMES, spinners
 
 EXPECTED_PATH = Path(__file__).with_name("expected_spinners.json")
 EXPECTED = json.loads(EXPECTED_PATH.read_text(encoding="utf-8"))

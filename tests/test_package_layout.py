@@ -2,14 +2,18 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from unicode_animations import BRAILLE_SPINNER_NAMES
+from unicode_animations import SPINNER_NAMES
 
 ROOT = Path(__file__).resolve().parents[1]
 PUBLIC_MARKDOWN = [
     ROOT / "README.md",
     ROOT / "API_COMPATIBILITY.md",
+    ROOT / "CODE_QUALITY.md",
     ROOT / "RELEASING.md",
     ROOT / "docs" / "README.md",
+    ROOT / "docs" / "cleanup-workflow.md",
+    ROOT / "docs" / "code-quality-enforcement.md",
+    ROOT / "docs" / "engineering-patterns.md",
     ROOT / "docs" / "source-tree-owner-map.md",
     ROOT / "CONTRIBUTING.md",
 ]
@@ -19,9 +23,14 @@ def test_required_public_package_docs_exist() -> None:
     required_paths = [
         ROOT / "README.md",
         ROOT / "API_COMPATIBILITY.md",
+        ROOT / "CODE_QUALITY.md",
         ROOT / "RELEASING.md",
         ROOT / "docs" / "README.md",
+        ROOT / "docs" / "cleanup-workflow.md",
+        ROOT / "docs" / "code-quality-enforcement.md",
+        ROOT / "docs" / "engineering-patterns.md",
         ROOT / "docs" / "source-tree-owner-map.md",
+        ROOT / "scripts" / "validate_quality_patterns.py",
         ROOT / "scripts" / "release_check.py",
     ]
     missing = [path.relative_to(ROOT).as_posix() for path in required_paths if not path.exists()]
@@ -40,5 +49,5 @@ def test_public_markdown_surfaces_avoid_machine_local_paths() -> None:
 def test_readme_lists_all_spinner_families() -> None:
     text = (ROOT / "README.md").read_text(encoding="utf-8")
     assert "## Available animations" in text
-    for name in BRAILLE_SPINNER_NAMES:
+    for name in SPINNER_NAMES:
         assert f"`{name}`" in text

@@ -39,11 +39,12 @@ def _fresh_install_smoke() -> None:
             str(python),
             "-c",
             (
-                "from unicode_animations import __version__, BRAILLE_SPINNER_NAMES; "
+                "from unicode_animations import ("
+                "__version__, BRAILLE_SPINNER_NAMES, SPINNER_NAMES); "
                 "from unicode_animations.web import build_spinner_payload; "
                 "assert __version__; "
-                "assert len(BRAILLE_SPINNER_NAMES) == 18; "
-                "assert len(build_spinner_payload()) == 18"
+                "assert BRAILLE_SPINNER_NAMES is SPINNER_NAMES; "
+                "assert len(build_spinner_payload()) == len(SPINNER_NAMES)"
             ),
         )
         _run(str(cli), "--list")

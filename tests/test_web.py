@@ -4,25 +4,28 @@ import json
 import threading
 import urllib.request
 
-from unicode_animations import BRAILLE_SPINNER_NAMES
+from unicode_animations import SPINNER_CATEGORIES, SPINNER_NAMES
 from unicode_animations.web import build_demo_html, build_spinner_payload, create_demo_server
 
 
 def test_build_spinner_payload_shape() -> None:
     payload = build_spinner_payload()
-    assert sorted(payload.keys()) == sorted(BRAILLE_SPINNER_NAMES)
+    assert tuple(payload) == SPINNER_NAMES
 
-    for name in BRAILLE_SPINNER_NAMES:
+    for name in SPINNER_NAMES:
         entry = payload[name]
         assert isinstance(entry["frames"], list)
         assert len(entry["frames"]) > 0
         assert isinstance(entry["interval"], int)
         assert entry["interval"] > 0
+        assert entry["category"] == SPINNER_CATEGORIES[name]
 
 
 def test_build_demo_html_contains_expected_markers() -> None:
     html = build_demo_html()
     assert "unicode-animatio" in html
+    assert f"{len(SPINNER_NAMES)} terminal animations" in html
+    assert "18 braille spinner animations" not in html
     assert "spinnerPanel" in html
     assert "fetch('/spinners.json')" in html
 
@@ -42,7 +45,7 @@ def test_demo_server_serves_index_and_spinner_json() -> None:
         with urllib.request.urlopen(f"http://{host}:{port}/spinners.json", timeout=5) as response:
             payload = json.loads(response.read().decode("utf-8"))
             assert response.status == 200
-            assert sorted(payload.keys()) == sorted(BRAILLE_SPINNER_NAMES)
+            assert tuple(payload) == SPINNER_NAMES
     finally:
         server.shutdown()
         server.server_close()
