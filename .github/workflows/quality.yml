@@ -90,7 +90,7 @@ jobs:
               mapfile -t commits < <(git rev-list --reverse "${base_commit}..HEAD")
             fi
           elif [[ -n "${BEFORE_SHA}" && "${BEFORE_SHA}" != "0000000000000000000000000000000000000000" ]]; then
-            mapfile -t commits < <(git rev-list --reverse "${BEFORE_SHA}..HEAD")
+            mapfile -t commits < <(git rev-list --first-parent --reverse "${BEFORE_SHA}..HEAD")
           fi
           if [[ ${#commits[@]} -eq 0 ]]; then
             commits=(HEAD)
