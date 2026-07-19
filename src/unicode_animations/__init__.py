@@ -1,6 +1,6 @@
 """Unicode and ASCII terminal animations for Python."""
 
-__version__ = "0.0.2"
+__version__ = "0.0.3"
 
 from .braille import Spinner, grid_to_braille, make_grid
 from .catalog import (
