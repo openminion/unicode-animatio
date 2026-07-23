@@ -33,6 +33,15 @@
 remains `unicode_animations`, while the public CLI entrypoints use
 `unicode-animatio` and `unicode-animatio-web`.
 
+## Read This First
+
+1. Use [Install](#install) to add the package.
+2. Use [Quick start](#quick-start) for Python frame data.
+3. Use [CLI and demos](#cli-and-demos) to preview animations.
+4. Use [Available animations](#available-animations) to choose a preset.
+5. Use [What the package does not provide](#what-the-package-does-not-provide)
+   before expecting progress bars, orchestration, or UI framework adapters.
+
 ## Official project links
 
 - GitHub: `https://github.com/openminion/unicode-animatio`
