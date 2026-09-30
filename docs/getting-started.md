@@ -74,6 +74,11 @@ animation = get_provider().get("edgepulse", length=3)
 print(animation.frames)
 ```
 
+Direct `get_provider()` imports work in any Python host. The installed
+`openminion.cli.animation_providers` entry point is only for OpenMinion's
+automatic discovery. Other hosts retain their own lifecycle-event and renderer
+integration.
+
 ## Validation baseline
 
 ```bash

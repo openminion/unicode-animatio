@@ -118,6 +118,7 @@ def test_main_rejects_search_with_positional_name(capsys) -> None:
     "args",
     (
         ["--show", "edgepulse", "--search", "graph"],
+        ["--show", "", "--search", "graph"],
         ["--categories", "--search", "graph"],
         ["--web", "--search", "graph"],
     ),
@@ -152,6 +153,15 @@ def test_main_rejects_unknown_spinner_name(capsys) -> None:
     captured = capsys.readouterr()
     assert 'Unknown spinner: "unknown-spinner"' in captured.err
     assert "Run with --list to see all spinners." in captured.err
+
+
+@pytest.mark.parametrize("args", (["--show", ""], ["--show", "", "--json"], [""]))
+def test_main_rejects_empty_explicit_spinner_name(args, capsys) -> None:
+    assert cli.main(args) == 1
+
+    captured = capsys.readouterr()
+    assert 'Unknown spinner: ""' in captured.err
+    assert captured.out == ""
 
 
 def test_main_shows_named_spinner_when_stdout_is_not_a_tty(capsys) -> None:
@@ -228,9 +238,11 @@ def test_main_web_mode_delegates_to_server(monkeypatch) -> None:
 
     assert cli.main(["--web"]) == 17
     assert cli.main(["--web", "--host", "0.0.0.0", "--port", "8765", "--no-open"]) == 17
+    assert cli.main(["--web", "--port", "65535", "--no-open"]) == 17
     assert calls == [
         ("127.0.0.1", 0, True),
         ("0.0.0.0", 8765, False),
+        ("127.0.0.1", 65535, False),
     ]
 
 
@@ -240,3 +252,12 @@ def test_main_rejects_web_options_without_web(capsys) -> None:
 
     assert exc_info.value.code == 2
     assert "--host, --port, and --no-open require --web" in capsys.readouterr().err
+
+
+@pytest.mark.parametrize("port", ("-1", "65536", "nope"))
+def test_main_rejects_out_of_range_web_port(port, capsys) -> None:
+    with pytest.raises(SystemExit) as exc_info:
+        cli.main(["--web", "--port", port, "--no-open"])
+
+    assert exc_info.value.code == 2
+    assert "port must be an integer between 0 and 65535" in capsys.readouterr().err

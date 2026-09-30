@@ -4,15 +4,6 @@ on:
   push:
     tags: ["v*"]
   workflow_dispatch:
-    inputs:
-      target:
-        description: "Package index target"
-        required: true
-        default: "testpypi"
-        type: choice
-        options:
-          - testpypi
-          - pypi
 
 permissions:
   contents: read
@@ -21,13 +12,25 @@ permissions:
 jobs:
   build-and-publish:
     runs-on: ubuntu-latest
-    environment: ${{ github.event_name == 'workflow_dispatch' && inputs.target || (contains(github.ref_name, 'rc') && 'testpypi' || 'pypi') }}
+    environment: ${{ (github.event_name == 'workflow_dispatch' || contains(github.ref_name, 'rc')) && 'testpypi' || 'pypi' }}
     steps:
       - uses: actions/checkout@v4
 
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
+
+      - name: Validate release tag
+        if: github.event_name == 'push'
+        env:
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          package_version="$(python -c 'import pathlib, tomllib; print(tomllib.loads(pathlib.Path("pyproject.toml").read_text())["project"]["version"])')"
+          expected_tag="v${package_version}"
+          if [[ "${RELEASE_TAG}" != "${expected_tag}" ]]; then
+            echo "release tag ${RELEASE_TAG} does not match ${expected_tag}" >&2
+            exit 1
+          fi
 
       - name: Install dev environment
         run: make dev-install
@@ -48,14 +51,12 @@ jobs:
           path: dist/*
 
       - name: Publish to TestPyPI
-        if: ${{ (github.event_name == 'workflow_dispatch' && inputs.target == 'testpypi') || (github.event_name == 'push' && contains(github.ref_name, 'rc')) }}
+        if: ${{ github.event_name == 'workflow_dispatch' || contains(github.ref_name, 'rc') }}
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
           repository-url: https://test.pypi.org/legacy/
           skip-existing: true
 
       - name: Publish to PyPI
-        if: ${{ (github.event_name == 'push' && !contains(github.ref_name, 'rc')) || (github.event_name == 'workflow_dispatch' && inputs.target == 'pypi') }}
+        if: ${{ github.event_name == 'push' && !contains(github.ref_name, 'rc') }}
         uses: pypa/gh-action-pypi-publish@release/v1
-        with:
-          skip-existing: true

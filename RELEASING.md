@@ -22,7 +22,9 @@ A publishable release must satisfy all of the following:
 6. Package tests pass from the package root.
 7. Ruff passes from the package root.
 8. Both wheel and sdist build successfully.
-9. A fresh-wheel install smoke passes from a temporary virtualenv.
+9. Both artifacts include the MIT license file and SPDX metadata.
+10. A fresh-wheel install smoke discovers and loads the provider entry point
+    from a temporary virtualenv.
 
 ## Version bump
 
@@ -40,13 +42,14 @@ If the public contract changes, also update:
 
 ## Build and validation
 
-Preferred deterministic release check:
+Run the complete deterministic release check through the package-owned tool
+environment:
 
 ```bash
-python3 scripts/release_check.py
+make release-check
 ```
 
-Manual equivalent:
+Core build commands, for focused diagnosis only:
 
 ```bash
 python3 -m pytest -q
@@ -54,7 +57,7 @@ python3 -m ruff check .
 python3 -m build
 ```
 
-Fresh-install smoke:
+Basic install smoke, also covered more completely by `make release-check`:
 
 ```bash
 TMP_VENV="$(mktemp -d)/unicode-animatio-venv"
@@ -65,17 +68,19 @@ python3 -m venv "$TMP_VENV"
 
 ## Publish sequence
 
-`unicode-animatio` follows the shared repo-family release flow documented in
-`docs/reference/package-release-process.md`:
+`unicode-animatio` uses this release sequence:
 
-1. prepare and validate an RC branch,
-2. push an RC tag such as `v<version>rc1` to publish to TestPyPI,
+1. set the package version to an RC such as `X.Y.ZrcN`, then prepare and
+   validate the RC branch,
+2. push the exact matching tag `vX.Y.ZrcN` to publish to TestPyPI,
 3. install and smoke-test the RC artifact from TestPyPI,
-4. prepare and validate the final non-RC branch,
-5. dispatch the `Release` workflow from that final branch with
-   `target=testpypi`,
+4. set the package version to the final `X.Y.Z`, then prepare and validate the
+   final non-RC branch,
+5. dispatch the `Release` workflow from that final branch; manual dispatches
+   publish to TestPyPI only,
 6. install and smoke-test the final TestPyPI artifact,
-7. push the final non-RC tag such as `v<version>` to publish to PyPI,
+7. push the final non-RC tag such as `v<version>` to publish to PyPI; the tag
+   must exactly match the version in `pyproject.toml`,
 8. create the GitHub Release using the bare version title, such as `<version>`.
 
 ## GitHub Actions Trusted Publishing
@@ -87,6 +92,10 @@ Trusted publishing must be configured for:
 
 1. TestPyPI environment: `testpypi`
 2. PyPI environment: `pypi`
+
+The production `pypi` environment should require approval and restrict its
+deployment refs to release tags. TestPyPI is intentionally available for
+approval-free validation runs.
 
 ## Notes
 

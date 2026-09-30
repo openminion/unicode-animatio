@@ -175,6 +175,12 @@ category, tags, frame count, width hints, motion hints, and usage descriptions.
 This is the preferred boundary for plugin hosts and applications that may swap
 animation providers.
 
+`get_provider()` is the framework-neutral Python integration surface. The
+installed `openminion.cli.animation_providers` entry point adds automatic
+discovery specifically for OpenMinion. Other hosts do not share that
+entry-point protocol; they should map their own lifecycle events to a selected
+preset and render its raw frames.
+
 ### Browse by category
 
 Use the category API when an application wants to offer a constrained preset

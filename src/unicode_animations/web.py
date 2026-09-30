@@ -7,7 +7,7 @@ import json
 import webbrowser
 from collections.abc import Sequence
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
-from typing import TypedDict
+from typing import TypedDict, cast
 from urllib.parse import urlparse
 
 from . import __version__
@@ -782,7 +782,7 @@ def create_demo_server(host: str = "127.0.0.1", port: int = 0) -> ThreadingHTTPS
 def serve_demo(host: str = "127.0.0.1", port: int = 0, open_browser: bool = True) -> int:
     """Serve the web demo until interrupted."""
     server = create_demo_server(host=host, port=port)
-    bound_host, bound_port = server.server_address
+    bound_host, bound_port = cast(tuple[str, int], server.server_address)
     url = f"http://{bound_host}:{bound_port}/"
 
     print(f"Serving unicode-animatio web demo at {url}")
@@ -801,6 +801,16 @@ def serve_demo(host: str = "127.0.0.1", port: int = 0, open_browser: bool = True
     return 0
 
 
+def _port_number(value: str) -> int:
+    try:
+        port = int(value)
+    except ValueError as exc:
+        raise argparse.ArgumentTypeError("port must be an integer between 0 and 65535") from exc
+    if not 0 <= port <= 65_535:
+        raise argparse.ArgumentTypeError("port must be an integer between 0 and 65535")
+    return port
+
+
 def _build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="unicode-animatio-web",
@@ -808,7 +818,7 @@ def _build_parser() -> argparse.ArgumentParser:
     )
     parser.add_argument("--version", action="version", version=f"%(prog)s {__version__}")
     parser.add_argument("--host", default="127.0.0.1", help="Host to bind (default: 127.0.0.1)")
-    parser.add_argument("--port", type=int, default=0, help="Port to bind (default: auto)")
+    parser.add_argument("--port", type=_port_number, default=0, help="Port to bind (default: auto)")
     parser.add_argument(
         "--no-open",
         action="store_true",
