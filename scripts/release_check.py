@@ -62,8 +62,9 @@ def main(argv: list[str] | None = None) -> int:
     args = parser.parse_args(argv)
 
     if not args.skip_build_clean:
-        shutil.rmtree(BUILD_DIR, ignore_errors=True)
-        shutil.rmtree(DIST_DIR, ignore_errors=True)
+        for directory in (BUILD_DIR, DIST_DIR):
+            if directory.exists():
+                shutil.rmtree(directory)
 
     _run(sys.executable, "-m", "pytest", "-q")
     _run(sys.executable, "-m", "ruff", "check", ".")

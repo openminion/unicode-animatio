@@ -35,7 +35,7 @@ class UnicodeAnimationProvider:
     provider_id = "unicode"
 
     def names(self, *, category: str | None = None, search: str = "") -> tuple[str, ...]:
-        return tuple(search_spinner_names(search, category=category))
+        return search_spinner_names(search, category=category)
 
     def catalog(self) -> tuple[SpinnerMetadata, ...]:
         return all_spinner_metadata()
@@ -52,7 +52,7 @@ class UnicodeAnimationProvider:
             provider_id=self.provider_id,
             name=metadata.name,
             frames=tuple(frame * length for frame in spinner.frames),
-            interval_ms=int(spinner.interval),
+            interval_ms=spinner.interval,
             category=metadata.category,
             tags=metadata.tags,
             frame_count=metadata.frame_count,

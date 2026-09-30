@@ -11,7 +11,7 @@ def test_get_provider_returns_structural_provider_without_openminion_import() ->
 
     assert isinstance(provider, UnicodeAnimationProvider)
     assert provider.provider_id == "unicode"
-    assert provider.names() == tuple(SPINNER_NAMES)
+    assert provider.names() == SPINNER_NAMES
 
 
 @pytest.mark.parametrize("name", SPINNER_NAMES)
@@ -23,7 +23,7 @@ def test_provider_specs_match_spinner_catalog(name: str) -> None:
     assert spec == AnimationSpec(
         provider_id="unicode",
         name=name,
-        frames=tuple(spinners[name].frames),
+        frames=spinners[name].frames,
         interval_ms=spinners[name].interval,
         category=metadata.category,
         tags=metadata.tags,
