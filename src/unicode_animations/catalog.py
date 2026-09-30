@@ -319,8 +319,6 @@ CATEGORY_MOTION: dict[CategoryName, str] = {
 
 
 def metadata_for_spinner(name: str) -> SpinnerMetadata:
-    if name not in spinners:
-        raise KeyError(name)
     spinner_name = cast(SpinnerName, name)
     spinner = spinners[spinner_name]
     category = SPINNER_CATEGORIES[spinner_name]
@@ -348,9 +346,6 @@ def spinner_names_for_category(category: str) -> tuple[SpinnerName, ...]:
 
 
 def search_spinner_names(query: str, *, category: str | None = None) -> tuple[SpinnerName, ...]:
-    if category is not None and category not in CATEGORY_NAMES:
-        raise KeyError(category)
-
     normalized_query = query.strip().lower()
     names = SPINNER_NAMES if category is None else spinner_names_for_category(category)
     if not normalized_query:

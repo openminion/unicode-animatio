@@ -63,6 +63,13 @@ def test_main_searches_by_name_category_and_tags(capsys) -> None:
     assert '1 graph spinner matching "edgepulse" available:' in capsys.readouterr().out
 
 
+def test_main_empty_search_lists_the_selected_category(capsys) -> None:
+    assert cli.main(["--search", "", "--category", "graph", "--json"]) == 0
+
+    payload = json.loads(capsys.readouterr().out)
+    assert [entry["name"] for entry in payload] == list(spinner_names_for_category("graph"))
+
+
 def test_main_show_prints_spinner_metadata(capsys) -> None:
     assert cli.main(["--show", "edgepulse"]) == 0
 

@@ -298,16 +298,17 @@ def _animate(
 def main(argv: Sequence[str] | None = None) -> int:
     parser = _build_parser()
     args = parser.parse_args(argv)
+    search_requested = args.search is not None
 
-    if args.category and not (args.list or args.search):
+    if args.category and not (args.list or search_requested):
         parser.error("--category requires --list or --search")
-    if args.json and not (args.list or args.categories or args.show or args.search):
+    if args.json and not (args.list or args.categories or args.show or search_requested):
         parser.error("--json requires --list, --categories, --search, or --show")
     if not args.web and (args.host is not None or args.port is not None or args.no_open):
         parser.error("--host, --port, and --no-open require --web")
-    if args.search and (args.show or args.categories or args.web):
+    if search_requested and (args.show or args.categories or args.web):
         parser.error("--search cannot be combined with --show, --categories, or --web")
-    if args.search and args.name:
+    if search_requested and args.name:
         parser.error("--search cannot be combined with a spinner name")
     if args.show and args.name:
         parser.error("--show cannot be combined with a spinner name")
@@ -326,7 +327,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         _print_list(category=args.category, search=args.search or "", json_output=args.json)
         return 0
 
-    if args.search:
+    if search_requested:
         _print_list(category=args.category, search=args.search, json_output=args.json)
         return 0
 
