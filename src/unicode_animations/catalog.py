@@ -26,8 +26,8 @@ CategoryName = Literal[
 class SpinnerMetadata:
     """Public metadata for choosing a spinner without reading frame internals."""
 
-    name: str
-    category: str
+    name: SpinnerName
+    category: CategoryName
     tags: tuple[str, ...]
     frame_count: int
     interval_ms: int
@@ -215,7 +215,7 @@ _ASCII_SPINNERS: dict[SpinnerName, Spinner] = {
     "shimmergrid": Spinner(frames=(".+.", "+.+", "*+*", "+.+"), interval=90),
 }
 
-spinners: dict[SpinnerName, Spinner] = {**_braille_spinners, **_ASCII_SPINNERS}
+spinners = cast(dict[str, Spinner], {**_braille_spinners, **_ASCII_SPINNERS})
 
 SPINNER_CATEGORIES: dict[SpinnerName, CategoryName] = {
     "braille": "subtle",

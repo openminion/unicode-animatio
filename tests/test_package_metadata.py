@@ -23,6 +23,18 @@ def test_project_urls_point_to_openminion_repo() -> None:
         in PYPROJECT_TEXT
     )
     assert 'Issues = "https://github.com/openminion/unicode-animatio/issues"' in PYPROJECT_TEXT
+    assert (
+        '"Release Notes" = "https://github.com/openminion/unicode-animatio/releases"'
+        in PYPROJECT_TEXT
+    )
+
+
+def test_package_metadata_uses_spdx_license_and_current_python_classifiers() -> None:
+    assert 'license = "MIT"' in PYPROJECT_TEXT
+    assert 'license-files = ["LICENSE"]' in PYPROJECT_TEXT
+    assert "License :: OSI Approved" not in PYPROJECT_TEXT
+    assert '"Programming Language :: Python :: 3.13"' in PYPROJECT_TEXT
+    assert '"Programming Language :: Python :: 3.14"' in PYPROJECT_TEXT
 
 
 def test_console_scripts_match_public_package_contract() -> None:

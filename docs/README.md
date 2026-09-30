@@ -24,6 +24,12 @@ frames, preset metadata, and local preview tools.
 - [Code quality](../CODE_QUALITY.md): contributor quality rules.
 - [Release guide](../RELEASING.md): package release flow.
 
+## Assessment Records
+
+- [External integration readiness assessment](external-integration-readiness-spec.md)
+  and [execution tracker](external-integration-readiness-tracker.md): dated
+  contributor evidence for the 2026-09-30 readiness pass.
+
 ## Public Package Boundary
 
 These docs are for external users and contributors. Keep them portable, avoid

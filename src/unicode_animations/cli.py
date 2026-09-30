@@ -20,7 +20,7 @@ from .catalog import (
     spinner_names_for_category,
     spinners,
 )
-from .web import serve_demo
+from .web import _port_number, serve_demo
 
 HIDE_CURSOR = "\x1b[?25l"
 SHOW_CURSOR = "\x1b[?25h"
@@ -121,7 +121,7 @@ def _build_parser() -> argparse.ArgumentParser:
     )
     parser.add_argument("--json", action="store_true", help="Print machine-readable JSON")
     parser.add_argument("--host", help="Host for --web mode (default: 127.0.0.1)")
-    parser.add_argument("--port", type=int, help="Port for --web mode (default: auto)")
+    parser.add_argument("--port", type=_port_number, help="Port for --web mode (default: auto)")
     parser.add_argument(
         "--no-open",
         action="store_true",
@@ -240,13 +240,13 @@ def _animate(
     foreground: str = "magenta",
 ) -> int:
     if not sys.stdout.isatty():
-        if name:
+        if name is not None:
             return _print_show(name)
         _print_list()
         return 0
 
-    names = list(SPINNER_NAMES)
-    current = names.index(name) if name else 0
+    names: list[str] = list(SPINNER_NAMES)
+    current = names.index(name) if name is not None else 0
     single = name is not None
     frame_idx = 0
     ticks_on_current = 0
@@ -302,15 +302,17 @@ def main(argv: Sequence[str] | None = None) -> int:
 
     if args.category and not (args.list or search_requested):
         parser.error("--category requires --list or --search")
-    if args.json and not (args.list or args.categories or args.show or search_requested):
+    if args.json and not (
+        args.list or args.categories or args.show is not None or search_requested
+    ):
         parser.error("--json requires --list, --categories, --search, or --show")
     if not args.web and (args.host is not None or args.port is not None or args.no_open):
         parser.error("--host, --port, and --no-open require --web")
-    if search_requested and (args.show or args.categories or args.web):
+    if search_requested and (args.show is not None or args.categories or args.web):
         parser.error("--search cannot be combined with --show, --categories, or --web")
-    if search_requested and args.name:
+    if search_requested and args.name is not None:
         parser.error("--search cannot be combined with a spinner name")
-    if args.show and args.name:
+    if args.show is not None and args.name is not None:
         parser.error("--show cannot be combined with a spinner name")
 
     if args.web:
@@ -320,7 +322,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             open_browser=not args.no_open,
         )
 
-    if args.show:
+    if args.show is not None:
         return _print_show(args.show, json_output=args.json)
 
     if args.list:
@@ -335,7 +337,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         _print_categories(json_output=args.json)
         return 0
 
-    if args.name and args.name not in spinners:
+    if args.name is not None and args.name not in spinners:
         print(f'Unknown spinner: "{args.name}"', file=sys.stderr)
         print("Run with --list to see all spinners.", file=sys.stderr)
         return 1

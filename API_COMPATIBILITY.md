@@ -68,6 +68,11 @@ Provider payloads are raw frame strings, millisecond timing, and preset
 selection metadata. Renderer colors, backgrounds, labels, layout, and
 accessibility policy are not part of the provider contract.
 
+`get_provider()` is the generic Python integration surface. Automatic
+discovery through `openminion.cli.animation_providers` is OpenMinion-specific;
+other hosts should import the provider directly, map their own lifecycle events
+to a selected preset, and retain ownership of frame scheduling and rendering.
+
 `AnimationSpec` now also carries metadata fields for host integrations:
 
 - `category`
@@ -113,6 +118,20 @@ The terminal CLI supports human-readable and JSON inspection:
 JSON output is intended for host discovery and smoke tests. The exact browser
 demo markup remains non-contract, but `/spinners.json` exposes the same
 metadata shape used by the gallery.
+
+Each CLI invocation writes one complete JSON document rather than a JSONL
+stream:
+
+| Command | Top-level shape | Record fields |
+| --- | --- | --- |
+| `--categories --json` | array | `name`, `count` |
+| `--list --json` or `--search TEXT --json` | array | `name`, `category`, `tags`, `frame_count`, `interval_ms`, `frame_width`, `preview_frame`, `motion`, `description` |
+| `--show NAME --json` | object | the metadata fields above plus `frames` |
+
+Successful inspection writes data to standard output and exits `0`. An unknown
+spinner writes its message to standard error and exits `1`. Argument misuse
+writes argparse guidance to standard error and exits `2`. During beta, existing
+JSON fields retain their documented meaning; new fields may be added.
 
 A named terminal preview prints its static metadata when standard output is
 not interactive instead of emitting animation control sequences.

@@ -6,7 +6,7 @@ import urllib.request
 
 import pytest
 
-from unicode_animations import CATEGORY_NAMES, SPINNER_CATEGORIES, SPINNER_NAMES, __version__
+from unicode_animations import CATEGORY_NAMES, SPINNER_CATEGORIES, SPINNER_NAMES, __version__, web
 from unicode_animations.web import build_demo_html, build_spinner_payload, create_demo_server, main
 
 
@@ -90,6 +90,29 @@ def test_main_prints_version(capsys) -> None:
 
     assert exc_info.value.code == 0
     assert capsys.readouterr().out == f"unicode-animatio-web {__version__}\n"
+
+
+@pytest.mark.parametrize("port", ("-1", "65536", "nope"))
+def test_main_rejects_out_of_range_port(port, capsys) -> None:
+    with pytest.raises(SystemExit) as exc_info:
+        main(["--port", port, "--no-open"])
+
+    assert exc_info.value.code == 2
+    assert "port must be an integer between 0 and 65535" in capsys.readouterr().err
+
+
+def test_main_accepts_port_bounds(monkeypatch) -> None:
+    calls: list[int] = []
+
+    def fake_serve_demo(*, host: str, port: int, open_browser: bool) -> int:
+        calls.append(port)
+        return 0
+
+    monkeypatch.setattr(web, "serve_demo", fake_serve_demo)
+
+    assert main(["--port", "0", "--no-open"]) == 0
+    assert main(["--port", "65535", "--no-open"]) == 0
+    assert calls == [0, 65535]
 
 
 def test_demo_server_serves_index_and_spinner_json() -> None:
