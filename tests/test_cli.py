@@ -211,13 +211,25 @@ def test_preview_line_keeps_raw_frame_unchanged() -> None:
 
 
 def test_main_web_mode_delegates_to_server(monkeypatch) -> None:
-    calls: list[tuple[int, bool]] = []
+    calls: list[tuple[str, int, bool]] = []
 
-    def fake_serve_demo(*, port: int, open_browser: bool) -> int:
-        calls.append((port, open_browser))
+    def fake_serve_demo(*, host: str, port: int, open_browser: bool) -> int:
+        calls.append((host, port, open_browser))
         return 17
 
     monkeypatch.setattr(cli, "serve_demo", fake_serve_demo)
 
-    assert cli.main(["--web", "--port", "8765"]) == 17
-    assert calls == [(8765, True)]
+    assert cli.main(["--web"]) == 17
+    assert cli.main(["--web", "--host", "0.0.0.0", "--port", "8765", "--no-open"]) == 17
+    assert calls == [
+        ("127.0.0.1", 0, True),
+        ("0.0.0.0", 8765, False),
+    ]
+
+
+def test_main_rejects_web_options_without_web(capsys) -> None:
+    with pytest.raises(SystemExit) as exc_info:
+        cli.main(["--host", "0.0.0.0", "--port", "8765", "--no-open"])
+
+    assert exc_info.value.code == 2
+    assert "--host, --port, and --no-open require --web" in capsys.readouterr().err

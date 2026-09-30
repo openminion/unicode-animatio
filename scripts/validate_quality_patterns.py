@@ -595,35 +595,82 @@ CHECKS = {
 
 
 def write_baselines(project: ProjectInfo) -> None:
+    file_rows = _max_file_loc_rows(project)
+    method_rows = _method_loc_rows(project)
+    helper_rows = _helper_duplicate_rows(project)
+    filename_rows = _filename_underscore_rows(project)
+    broad_rows = _broad_exception_rows(project)
+    path_rows = _path_structure_rows(project)
+
+    regressions: list[str] = []
+    approved_rows: dict[Path, list[tuple[object, ...]]] = {}
+    for baseline_path, rows, width, identity_width, counts in (
+        (MAX_FILE_LOC_BASELINE, file_rows, 3, 1, (1,)),
+        (METHOD_LOC_BASELINE, method_rows, 4, 2, (2,)),
+        (FILENAME_UNDERSCORE_BASELINE, filename_rows, 2, 1, (1,)),
+        (BROAD_EXCEPTION_BASELINE, broad_rows, 4, 1, (1, 2)),
+    ):
+        approved_rows[baseline_path] = []
+        previous = {row[:identity_width]: row for row in _load_tsv(baseline_path, width)}
+        for row in rows:
+            identity = tuple(str(value) for value in row[:identity_width])
+            prior = previous.get(identity)
+            if prior is None:
+                regressions.append(f"{baseline_path.name}: {'/'.join(identity)}")
+                continue
+            if any(int(row[index]) > int(prior[index]) for index in counts):
+                regressions.append(f"{baseline_path.name}: {'/'.join(identity)}")
+            approved_rows[baseline_path].append((*row[:-1], prior[-1]) if width > 2 else row)
+
+    previous_helpers = {
+        (directory, function): (files, reason)
+        for directory, function, files, reason in _load_tsv(HELPER_DUPLICATES_BASELINE, 4)
+    }
+    approved_helpers = []
+    for directory, function, files, _reason in helper_rows:
+        prior = previous_helpers.get((directory, function))
+        if prior is None or not set(files.split(",")).issubset(set(prior[0].split(","))):
+            regressions.append(f"{HELPER_DUPLICATES_BASELINE.name}: {directory}/{function}")
+            continue
+        approved_helpers.append((directory, function, files, prior[1]))
+
+    previous_paths = _load_tsv(PATH_STRUCTURE_BASELINE, 2)
+    for row in path_rows:
+        if row not in previous_paths:
+            regressions.append(f"{PATH_STRUCTURE_BASELINE.name}: {row[0]}")
+
+    if regressions:
+        raise SystemExit("baseline growth rejected:\n" + "\n".join(regressions))
+
     _write_tsv(
         MAX_FILE_LOC_BASELINE,
         "# Format: path<TAB>loc<TAB>reason",
-        _max_file_loc_rows(project),
+        approved_rows[MAX_FILE_LOC_BASELINE],
     )
     _write_tsv(
         METHOD_LOC_BASELINE,
         "# Format: path<TAB>qualname<TAB>loc<TAB>reason",
-        _method_loc_rows(project),
+        approved_rows[METHOD_LOC_BASELINE],
     )
     _write_tsv(
         HELPER_DUPLICATES_BASELINE,
         "# Format: directory<TAB>function<TAB>files<TAB>reason",
-        _helper_duplicate_rows(project),
+        approved_helpers,
     )
     _write_tsv(
         FILENAME_UNDERSCORE_BASELINE,
         "# Format: path<TAB>underscore_count",
-        _filename_underscore_rows(project),
+        approved_rows[FILENAME_UNDERSCORE_BASELINE],
     )
     _write_tsv(
         BROAD_EXCEPTION_BASELINE,
         "# Format: path<TAB>total<TAB>silent_pass<TAB>reason",
-        _broad_exception_rows(project),
+        approved_rows[BROAD_EXCEPTION_BASELINE],
     )
     _write_tsv(
         PATH_STRUCTURE_BASELINE,
         "# Format: source_relative_path<TAB>finding",
-        _path_structure_rows(project),
+        path_rows,
     )
 
 
