@@ -52,6 +52,8 @@ The package currently treats these console scripts as public:
 - `unicode-animatio-web`
 
 Both commands expose `--version` using the installed package version.
+Both accept `--host`, `--port`, and `--no-open` for browser previews; those
+options require `--web` when using `unicode-animatio`.
 
 ## Provider entry point
 

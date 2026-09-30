@@ -120,7 +120,13 @@ def _build_parser() -> argparse.ArgumentParser:
         help="Search preset names, categories, and tags",
     )
     parser.add_argument("--json", action="store_true", help="Print machine-readable JSON")
-    parser.add_argument("--port", type=int, default=0, help="Port for --web mode (default: auto)")
+    parser.add_argument("--host", help="Host for --web mode (default: 127.0.0.1)")
+    parser.add_argument("--port", type=int, help="Port for --web mode (default: auto)")
+    parser.add_argument(
+        "--no-open",
+        action="store_true",
+        help="Do not open a browser in --web mode",
+    )
     parser.add_argument(
         "--color",
         choices=("auto", "always", "never"),
@@ -297,6 +303,8 @@ def main(argv: Sequence[str] | None = None) -> int:
         parser.error("--category requires --list or --search")
     if args.json and not (args.list or args.categories or args.show or args.search):
         parser.error("--json requires --list, --categories, --search, or --show")
+    if not args.web and (args.host is not None or args.port is not None or args.no_open):
+        parser.error("--host, --port, and --no-open require --web")
     if args.search and (args.show or args.categories or args.web):
         parser.error("--search cannot be combined with --show, --categories, or --web")
     if args.search and args.name:
@@ -305,7 +313,11 @@ def main(argv: Sequence[str] | None = None) -> int:
         parser.error("--show cannot be combined with a spinner name")
 
     if args.web:
-        return serve_demo(port=args.port, open_browser=True)
+        return serve_demo(
+            host=args.host or "127.0.0.1",
+            port=args.port or 0,
+            open_browser=not args.no_open,
+        )
 
     if args.show:
         return _print_show(args.show, json_output=args.json)

@@ -74,7 +74,7 @@ unicode-animatio --search graph --json
 unicode-animatio --show edgepulse
 unicode-animatio --version
 unicode-animatio helix
-unicode-animatio-web --port 8765
+unicode-animatio --web --port 8765
 ```
 
 ## Install
@@ -267,7 +267,7 @@ search status to assistive technology.
 For a remote development machine:
 
 ```bash
-unicode-animatio-web --host 0.0.0.0 --port 8765 --no-open
+unicode-animatio --web --host 0.0.0.0 --port 8765 --no-open
 ```
 
 Binding to `0.0.0.0` exposes the preview server to the machine's network. Use

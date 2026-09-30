@@ -37,7 +37,7 @@ unicode-animatio --list --category graph
 unicode-animatio --search knowledge --category graph
 unicode-animatio --show edgepulse --json
 unicode-animatio edgepulse --color auto --foreground gray
-unicode-animatio-web --port 8765
+unicode-animatio --web --port 8765
 ```
 
 The package exposes raw frames and timing. Terminal and browser renderers own
