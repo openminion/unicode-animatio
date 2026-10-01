@@ -79,8 +79,9 @@ jobs:
           set -euo pipefail
           commits=()
           if [[ "${GITHUB_EVENT_NAME}" == "pull_request" ]]; then
-            if [[ "${GITHUB_HEAD_REF}" == "dev" && "${GITHUB_BASE_REF}" == "main" ]]; then
-              # Long-lived dev pushes already validate each new commit on push.
+            if [[ ( "${GITHUB_HEAD_REF}" == "dev" && "${GITHUB_BASE_REF}" == "main" ) ||
+                  ( "${GITHUB_HEAD_REF}" == "main" && "${GITHUB_BASE_REF}" == "dev" ) ]]; then
+              # Long-lived branch pushes already validate each new commit on push.
               # Re-validating the full dev ancestry here would fail on older
               # branch history that predates the current commit policy.
               commits=(HEAD)
