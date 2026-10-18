@@ -20,7 +20,7 @@ from .catalog import (
     spinner_names_for_category,
     spinners,
 )
-from .web import _port_number, serve_demo
+from .web import _host_name, _port_number, serve_demo
 
 HIDE_CURSOR = "\x1b[?25l"
 SHOW_CURSOR = "\x1b[?25h"
@@ -120,7 +120,11 @@ def _build_parser() -> argparse.ArgumentParser:
         help="Search preset names, categories, and tags",
     )
     parser.add_argument("--json", action="store_true", help="Print machine-readable JSON")
-    parser.add_argument("--host", help="Host for --web mode (default: 127.0.0.1)")
+    parser.add_argument(
+        "--host",
+        type=_host_name,
+        help="Host for --web mode (default: 127.0.0.1)",
+    )
     parser.add_argument("--port", type=_port_number, help="Port for --web mode (default: auto)")
     parser.add_argument(
         "--no-open",
@@ -314,6 +318,8 @@ def main(argv: Sequence[str] | None = None) -> int:
         parser.error("--search cannot be combined with a spinner name")
     if args.show is not None and args.name is not None:
         parser.error("--show cannot be combined with a spinner name")
+    if args.name is not None and (args.list or args.categories or args.web):
+        parser.error("a spinner name cannot be combined with --list, --categories, or --web")
 
     if args.web:
         return serve_demo(

@@ -114,6 +114,15 @@ def test_main_rejects_search_with_positional_name(capsys) -> None:
     assert "--search cannot be combined with a spinner name" in capsys.readouterr().err
 
 
+@pytest.mark.parametrize("mode", ("--list", "--categories", "--web"))
+def test_main_rejects_other_modes_with_positional_name(mode, capsys) -> None:
+    with pytest.raises(SystemExit) as exc_info:
+        cli.main(["edgepulse", mode])
+
+    assert exc_info.value.code == 2
+    assert "a spinner name cannot be combined with" in capsys.readouterr().err
+
+
 @pytest.mark.parametrize(
     "args",
     (
@@ -252,6 +261,14 @@ def test_main_rejects_web_options_without_web(capsys) -> None:
 
     assert exc_info.value.code == 2
     assert "--host, --port, and --no-open require --web" in capsys.readouterr().err
+
+
+def test_main_rejects_empty_web_host(capsys) -> None:
+    with pytest.raises(SystemExit) as exc_info:
+        cli.main(["--web", "--host", ""])
+
+    assert exc_info.value.code == 2
+    assert "host must not be empty" in capsys.readouterr().err
 
 
 @pytest.mark.parametrize("port", ("-1", "65536", "nope"))

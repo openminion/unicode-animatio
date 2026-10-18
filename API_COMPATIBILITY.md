@@ -53,7 +53,9 @@ The package currently treats these console scripts as public:
 
 Both commands expose `--version` using the installed package version.
 Both accept `--host`, `--port`, and `--no-open` for browser previews; those
-options require `--web` when using `unicode-animatio`.
+options require `--web` when using `unicode-animatio`. An explicit spinner
+name cannot be combined with a catalog-inspection or browser mode, and an
+explicit `--host` value cannot be empty.
 
 ## Provider entry point
 
@@ -115,9 +117,9 @@ The terminal CLI supports human-readable and JSON inspection:
 - `unicode-animatio --list --category CATEGORY --json`
 - `unicode-animatio --show NAME --json`
 
-JSON output is intended for host discovery and smoke tests. The exact browser
-demo markup remains non-contract, but `/spinners.json` exposes the same
-metadata shape used by the gallery.
+JSON output is intended for host discovery and smoke tests. The browser demo's
+markup and `/spinners.json` payload are preview implementation details; host
+applications should use the provider or documented CLI JSON shapes instead.
 
 Each CLI invocation writes one complete JSON document rather than a JSONL
 stream:

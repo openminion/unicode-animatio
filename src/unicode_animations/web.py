@@ -811,13 +811,24 @@ def _port_number(value: str) -> int:
     return port
 
 
+def _host_name(value: str) -> str:
+    if not value:
+        raise argparse.ArgumentTypeError("host must not be empty")
+    return value
+
+
 def _build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="unicode-animatio-web",
         description="Run a local browser demo for unicode_animations.",
     )
     parser.add_argument("--version", action="version", version=f"%(prog)s {__version__}")
-    parser.add_argument("--host", default="127.0.0.1", help="Host to bind (default: 127.0.0.1)")
+    parser.add_argument(
+        "--host",
+        type=_host_name,
+        default="127.0.0.1",
+        help="Host to bind (default: 127.0.0.1)",
+    )
     parser.add_argument("--port", type=_port_number, default=0, help="Port to bind (default: auto)")
     parser.add_argument(
         "--no-open",

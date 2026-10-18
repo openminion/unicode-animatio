@@ -1,6 +1,7 @@
 # External Integration Readiness Assessment
 
-Status: implemented locally; external blockers recorded
+Status: implemented, merged in PR #35, and published in 0.0.11; repository
+protection remains externally blocked
 
 Date: 2026-09-30
 

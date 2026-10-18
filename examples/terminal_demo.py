@@ -60,35 +60,39 @@ def _animate(name: str, seconds: float) -> None:
 
 
 def main() -> int:
-    args = _build_parser().parse_args()
+    parser = _build_parser()
+    args = parser.parse_args()
+
+    if args.list and args.name is not None:
+        parser.error("a spinner name cannot be combined with --list")
 
     if args.list:
         _print_list()
         return 0
 
-    if args.name and args.name not in spinners:
+    if args.name is not None and args.name not in spinners:
         print(f'Unknown spinner: "{args.name}"', file=sys.stderr)
         print("Run with --list to see available names.", file=sys.stderr)
         return 1
 
     if not sys.stdout.isatty():
-        if args.name:
+        if args.name is not None:
             _print_spinner(args.name)
         else:
             _print_list()
         return 0
 
-    names = [args.name] if args.name else list(SPINNER_NAMES)
+    names = [args.name] if args.name is not None else list(SPINNER_NAMES)
 
     sys.stdout.write(HIDE_CURSOR)
     sys.stdout.flush()
 
     try:
-        loop_count = 1 if args.name else max(1, args.loops)
+        loop_count = 1 if args.name is not None else max(1, args.loops)
         for _ in range(loop_count):
             for name in names:
                 _animate(name, args.seconds_per_spinner)
-                if not args.name:
+                if args.name is None:
                     sys.stdout.write(f"{CLEAR_LINE}  \u2714  {name}\n")
                     sys.stdout.flush()
     except KeyboardInterrupt:
