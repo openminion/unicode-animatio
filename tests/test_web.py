@@ -92,6 +92,14 @@ def test_main_prints_version(capsys) -> None:
     assert capsys.readouterr().out == f"unicode-animatio-web {__version__}\n"
 
 
+def test_main_rejects_empty_host(capsys) -> None:
+    with pytest.raises(SystemExit) as exc_info:
+        main(["--host", ""])
+
+    assert exc_info.value.code == 2
+    assert "host must not be empty" in capsys.readouterr().err
+
+
 @pytest.mark.parametrize("port", ("-1", "65536", "nope"))
 def test_main_rejects_out_of_range_port(port, capsys) -> None:
     with pytest.raises(SystemExit) as exc_info:

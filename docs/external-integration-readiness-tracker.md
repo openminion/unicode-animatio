@@ -1,6 +1,7 @@
 # External Integration Readiness Tracker
 
-Status: local-complete / external-blocked; pull-request CI pending
+Status: complete; merged in PR #35 and published in 0.0.11; repository
+protection remains externally blocked
 
 Spec: [External integration readiness assessment](external-integration-readiness-spec.md)
 
@@ -13,12 +14,12 @@ Spec: [External integration readiness assessment](external-integration-readiness
 | UAR-05 | P1 | Repair public type consistency without adding runtime dependencies or new abstractions. | `catalog.py`, `provider.py`, `cli.py`, `web.py` | Strict full-source and external-consumer checks pass for Python 3.9. | done |
 | UAR-06 | P2 | Reject invalid web ports at both CLI boundaries. | `cli.py`, `web.py`, CLI/web tests | `-1` and `65536` fail through argparse; `0` and `65535` still parse. | done |
 | UAR-07 | P2 | Treat empty explicit spinner names as invalid selections. | `cli.py`, CLI tests | Empty `--show` and positional names fail; empty `--search` remains unfiltered. | done |
-| UAR-08 | P2 | Cover supported current Python versions. | `pyproject.toml`, quality workflow | Python 3.9 through 3.14 pass the compatibility matrix. | implemented; CI pending |
+| UAR-08 | P2 | Cover supported current Python versions. | `pyproject.toml`, quality workflow | Python 3.9 through 3.14 pass the compatibility matrix. | done |
 | UAR-09 | P2 | Document JSON and provider integration contracts. | `README.md`, `API_COMPATIBILITY.md`, docs | Shapes, output channels, exit statuses, compatibility, generic import, and OpenMinion discovery are explicit. | done |
 | UAR-10 | P2 | Remove the inaccessible release-process reference. | `RELEASING.md` | Release flow is self-contained. | done |
 | UAR-11 | P3 | Expose release notes through package metadata. | `pyproject.toml`, metadata tests | Standard `Release Notes` URL is present. | done |
 | UAR-12 | external | Configure GitHub branch and publishing-environment protection. | GitHub repository settings | Administrator-configured protection is visible through GitHub API. | blocked-external |
-| UAR-13 | external | Publish these metadata and README improvements to PyPI in a future version. | Future release | A new immutable PyPI artifact exposes the updated metadata and long description. | deferred-external |
+| UAR-13 | external | Publish these metadata and README improvements to PyPI in a future version. | Future release | A new immutable PyPI artifact exposes the updated metadata and long description. | done in 0.0.11 |
 
 ## Validation ledger
 
@@ -37,7 +38,8 @@ Spec: [External integration readiness assessment](external-integration-readiness
 | `make check` | Passed: 347 tests; all format, lint, and structural checks clean. |
 | `make hooks-run` | Passed, including actionlint. |
 | `make release-check` | Passed: clean build, artifact metadata, fresh install, scripts, type marker, and entry point. |
-| Pull request CI | Pending. |
+| Pull request CI | Passed for PR #35, including Python 3.9-3.14 compatibility, quality, and CodeQL. |
+| PyPI publication | Version 0.0.11 published with `License-Expression: MIT`, wheel and sdist artifacts, and the Release Notes URL. |
 
 ## Reviewer reconciliation
 
