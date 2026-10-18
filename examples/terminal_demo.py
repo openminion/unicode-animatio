@@ -48,7 +48,7 @@ def _print_spinner(name: str) -> None:
 
 def _animate(name: str, seconds: float) -> None:
     spinner = spinners[name]
-    end_time = time.monotonic() + max(0.0, seconds)
+    end_time = time.monotonic() + seconds
     idx = 0
 
     while time.monotonic() < end_time:
@@ -65,6 +65,10 @@ def main() -> int:
 
     if args.list and args.name is not None:
         parser.error("a spinner name cannot be combined with --list")
+    if args.seconds_per_spinner <= 0:
+        parser.error("--seconds-per-spinner must be greater than 0")
+    if args.loops < 1:
+        parser.error("--loops must be at least 1")
 
     if args.list:
         _print_list()
@@ -88,7 +92,7 @@ def main() -> int:
     sys.stdout.flush()
 
     try:
-        loop_count = 1 if args.name is not None else max(1, args.loops)
+        loop_count = 1 if args.name is not None else args.loops
         for _ in range(loop_count):
             for name in names:
                 _animate(name, args.seconds_per_spinner)
