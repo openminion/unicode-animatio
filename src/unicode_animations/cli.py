@@ -195,6 +195,7 @@ def _print_list(
     search: str = "",
     json_output: bool = False,
 ) -> None:
+    search = search.strip()
     names = search_spinner_names(search, category=category)
     metadata = tuple(metadata_for_spinner(name) for name in names)
     if json_output:

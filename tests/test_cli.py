@@ -70,6 +70,19 @@ def test_main_empty_search_lists_the_selected_category(capsys) -> None:
     assert [entry["name"] for entry in payload] == list(spinner_names_for_category("graph"))
 
 
+def test_main_trims_search_text_in_result_label(capsys) -> None:
+    assert cli.main(["--search", "  edgepulse  "]) == 0
+    assert '1 spinner matching "edgepulse" available:' in capsys.readouterr().out
+
+
+def test_main_treats_whitespace_search_as_empty(capsys) -> None:
+    assert cli.main(["--search", "   ", "--category", "graph"]) == 0
+
+    output = capsys.readouterr().out
+    assert "4 graph spinners available:" in output
+    assert "matching" not in output
+
+
 def test_main_show_prints_spinner_metadata(capsys) -> None:
     assert cli.main(["--show", "edgepulse"]) == 0
 
