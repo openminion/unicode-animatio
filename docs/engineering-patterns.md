@@ -58,3 +58,6 @@ frames, terminal helpers, a structural provider, and a local browser preview.
 Run `make check` before closing a change. Run `make release-check` when package
 metadata, public exports, entrypoints, or wheel contents change. For broad
 maintainability work, use the [Cleanup workflow](cleanup-workflow.md).
+
+Apply the [comment and docstring review](../CODE_QUALITY.md#comment-and-docstring-review)
+to the final diff, including tests and scripts.
