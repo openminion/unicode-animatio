@@ -42,3 +42,18 @@ pre-commit checks locally.
 See [Engineering patterns](docs/engineering-patterns.md),
 [Code quality enforcement](docs/code-quality-enforcement.md), and
 [Cleanup workflow](docs/cleanup-workflow.md) for the detailed process.
+
+## Comment and docstring review
+
+This rule applies to every contributor and coding agent, including tests and
+scripts. Let clear names, types and direct control flow explain ordinary steps.
+Review every added or changed comment and docstring in the final diff; remove
+obvious restatements, decorative banners and duplicated walkthroughs. Keep one
+concise explanation at the owner when a constraint is not obvious.
+
+Preserve public API and model-facing descriptions, required notices/directives,
+and useful safety, compatibility and regression-oracle rationale. Keep short
+factual module explainers; move longer design/history narratives to docs.
+Passing automated checks does not replace this review, and there is no comment
+quota. Check current source and existing reports before filing cleanup debt;
+keep unrelated cleanup out of a feature PR.

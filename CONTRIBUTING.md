@@ -1,5 +1,9 @@
 # Contributing to unicode-animatio
 
+All contributors and coding agents must follow the
+[comment and docstring review](CODE_QUALITY.md#comment-and-docstring-review)
+before requesting review.
+
 Thanks for your interest in improving `unicode-animatio`.
 
 ## Read first
